@@ -5,7 +5,7 @@
 
 <br><br>
 
-> This project was developed as part of the Life Cycle Management course, taught by Professor Rodrigo Martins Pagliares at Universidade Federal de Alfenas (UNIFAL-MG). Desc proj.
+> This project was developed as part of the Life Cycle Management course, taught by Professor Rodrigo Martins Pagliares at Universidade Federal de Alfenas (UNIFAL-MG). Desc project ...
 
 <br><br>
 
