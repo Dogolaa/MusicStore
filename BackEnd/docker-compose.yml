@@ -1,0 +1,10 @@
+services:
+  db:
+    image:
+      postgres
+    environment:
+      POSTGRES_DB: musicstore
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senha
+    ports:
+      - "5432:5432"
