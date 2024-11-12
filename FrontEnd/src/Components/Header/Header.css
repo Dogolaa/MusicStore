@@ -1,0 +1,104 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.logo span {
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    color: #000;
+}
+
+/* Esconde o ícone de menu e os links de navegação em telas maiores */
+.menu-icon {
+    display: none; /* Esconde o ícone de menu em telas maiores */
+    color: #333;
+    font-size: 24px; /* Tamanho do ícone do menu */
+    cursor: pointer;
+    position: absolute;
+    right: 20px; /* Alinha o ícone à direita */
+    top: 10px; /* Posição vertical */
+    z-index: 1010; /* Garante que esteja acima de outros elementos */
+}
+
+/* Garante que o ícone apareça apenas em telas menores */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+}
+
+.dropdown-menu {
+    display: none; /* Inicia oculto */
+    flex-direction: column; /* Organiza os itens em uma coluna */
+    position: absolute;
+    top: 50px;
+    right: 20px; /* Alinhado ao lado direito da tela */
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1001;
+    width: 200px; /* Largura fixa para todos os links */
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Estilo para o menu expandido em dispositivos móveis */
+.nav-links.show {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background-color: white;
+    top: 50px;
+    right: 0; /* Alinha o menu dropdown ao lado direito */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1002;
+    width: 200px; /* Ajuste de largura opcional */
+}
