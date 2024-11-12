@@ -1,19 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './Components/Header/Header';
-import './App.css';
-
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import PainelAdm from './Screens/PainelAdm';
 
 const App = () => {
   return (
     <Router>
-      <div className="app-container">
-        <Header />
-        <main className="main-content">
-          <h1>MusicStore Admin Control Panel</h1>
-          <p>MusicStore Admin Control Panel - Copyright © MusicStore</p>
-        </main>
-      </div>
+      <Routes>
+        <Route path="/" element={<Navigate to="/admin" replace />} />
+        <Route path="/admin" element={<PainelAdm />} />
+      </Routes>
     </Router>
   );
 };
