@@ -1,7 +1,9 @@
 package com.example.plugins
 
 import com.example.mapping.Brands
+import com.example.mapping.BrandsCategories
 import com.example.mapping.Categories
+import com.example.mapping.Products
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +33,8 @@ fun Application.configureDatabases(config: ApplicationConfig) {
         // Criação das tabelas
         SchemaUtils.create(Brands)
         SchemaUtils.create(Categories)
+        SchemaUtils.create(BrandsCategories)
+        SchemaUtils.create(Products)
     }
 }
 
