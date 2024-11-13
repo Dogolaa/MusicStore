@@ -8,3 +8,5 @@
 4. Com o docker instalado, abra o arquivo `docker-compose.yml`. Clique no botão de play que fica do lado esquerdo da
    primeira linha. Talvez demore um pouco se você não tem a imagem do postgres baixada.
 5. Agora você já pode executar o projeto, clique no botão de play no topo do Intelij
+
+Link pro index que criei (temporário): http://localhost:8080/static/index.html
