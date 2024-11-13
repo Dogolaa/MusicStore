@@ -7,4 +7,5 @@ interface UserRepository {
     suspend fun userById(id: Int): User?
     suspend fun addUser(user: User)
     suspend fun removeUser(id: Int): Boolean
+    suspend fun findByEmail(email: String): User?
 }

@@ -17,13 +17,11 @@ class PostgresUserRepository : UserRepository {
     }
 
     override suspend fun addUser(user: User): Unit = suspendTransaction {
-        var senhaHash = user.user_password.hashPassword()
-
         UserDAO.new {
             user_email = user.user_email
             user_name = user.user_name
             user_last_name = user.user_last_name
-            user_password = senhaHash
+            user_password = user.user_password.hashPassword()
             user_status = user.user_status
             user_ph_content = user.user_ph_content
         }
@@ -31,5 +29,9 @@ class PostgresUserRepository : UserRepository {
 
     override suspend fun removeUser(id: Int): Boolean {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun findByEmail(email: String): User? = suspendTransaction {
+        UserDAO.find { (Users.user_email eq email) }.limit(1).map(::daoToModel).firstOrNull()
     }
 }
