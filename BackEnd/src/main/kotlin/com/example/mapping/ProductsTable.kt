@@ -11,7 +11,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 object Products : IntIdTable("products") {
     val id_brand = reference("id_brand", Brands)
     val product_name = varchar("product_name", 100)
-    val product_main_photo = blob("product_main_photo")
+    val product_main_photo = varchar("product_main_photo", 100)
     val product_short_desc = varchar("product_short_desc", 100)
     val product_long_desc = varchar("product_long_desc", 500)
     val product_price = float("product_price")
