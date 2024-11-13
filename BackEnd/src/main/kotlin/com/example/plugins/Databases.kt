@@ -4,6 +4,9 @@ import com.example.mapping.Brands
 import com.example.mapping.BrandsCategories
 import com.example.mapping.Categories
 import com.example.mapping.Products
+import com.example.mapping.Roles
+import com.example.mapping.Users
+import com.example.mapping.UsersRoles
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +38,7 @@ fun Application.configureDatabases(config: ApplicationConfig) {
         SchemaUtils.create(Categories)
         SchemaUtils.create(BrandsCategories)
         SchemaUtils.create(Products)
+        SchemaUtils.create(Users, Roles, UsersRoles)
     }
 }
 
