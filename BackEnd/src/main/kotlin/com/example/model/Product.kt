@@ -1,5 +1,8 @@
 package com.example.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Product(
     // TODO Verificar tipos e concertar o último elemento (datetime)
     val id: Int,
