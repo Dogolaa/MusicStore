@@ -15,7 +15,7 @@ object Categories : IntIdTable("categories") {
 class CategoryDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<CategoryDAO>(Categories)
 
-    var id_category_parent by CategoryDAO.optionalReferencedOn(Categories.id_category_parent)
+    var id_category_parent by optionalReferencedOn(Categories.id_category_parent)
     var category_name by Categories.category_name
     var category_ph_content by Categories.category_ph_content
 }
