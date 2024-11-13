@@ -12,7 +12,7 @@ object Users : IntIdTable("users") {
     val user_last_name = varchar("user_last_name", 100)
     val user_password = varchar("user_password", 80)
     val user_status = integer("user_status")
-    val user_ph_content = blob("user_ph_content")
+    val user_ph_content = varchar("user_ph_content", 100)
 }
 
 class UserDAO(id: EntityID<Int>) : IntEntity(id) {
@@ -33,5 +33,5 @@ fun daoToModel(dao: UserDAO) = User(
     user_last_name = dao.user_last_name,
     user_password = dao.user_password,
     user_status = dao.user_status,
-    user_ph_content = dao.user_ph_content.toString()
+    user_ph_content = dao.user_ph_content
 )
