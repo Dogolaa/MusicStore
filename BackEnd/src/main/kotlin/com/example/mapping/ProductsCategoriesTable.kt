@@ -14,7 +14,7 @@ object ProductsCategories : IntIdTable("product_category") {
 class ProductsCategoriesDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<ProductDAO>(Products)
 
-    var id_category by ProductsCategories.id_product
+    var id_category by ProductsCategories.id_category
     var id_product by ProductsCategories.id_product
 }
 
