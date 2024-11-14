@@ -4,6 +4,7 @@ import com.example.mapping.Brands
 import com.example.mapping.BrandsCategories
 import com.example.mapping.Categories
 import com.example.mapping.Products
+import com.example.mapping.ProductsCategories
 import com.example.mapping.Roles
 import com.example.mapping.Users
 import com.example.mapping.UsersRoles
@@ -41,7 +42,8 @@ fun Application.configureDatabases(config: ApplicationConfig) {
             Products,
             Users,
             Roles,
-            UsersRoles
+            UsersRoles,
+            ProductsCategories
         )
 
         intializeData()
