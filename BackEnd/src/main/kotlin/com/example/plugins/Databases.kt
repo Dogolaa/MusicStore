@@ -69,40 +69,24 @@ fun intializeData() {
     }
 
     if (Products.selectAll().empty()) {
-        Products.insert {
-            it[id_brand] = 1 // ID da marca de exemplo, que deve existir na tabela Brands
-            it[product_name] = "Produto Teste"
-            it[product_main_photo] = "D" // Substitua com os dados do blob de foto
-            it[product_short_desc] = "Descrição curta de teste"
-            it[product_long_desc] = "Descrição longa de teste"
-            it[product_price] = 123.45f
-            it[product_discount] = 10.0f
-            it[product_status] = "Disponível"
-            it[product_has_stocks] = "Sim"
-            it[product_width] = 10.0f
-            it[product_lenght] = 20.0f
-            it[product_height] = 5.0f
-            it[product_cost] = 50.0f
-            it[product_creation_time] = "2024-01-01T12:00:00"
-            it[product_update_time] = "2024-01-02T12:00:00"
-        }
-
-        Products.insert {
-            it[id_brand] = 1 // Exemplo de outro ID da marca existente
-            it[product_name] = "Produto Exemplo 2"
-            it[product_main_photo] = "MMM" // Exemplo de dados de foto
-            it[product_short_desc] = "Outra descrição curta"
-            it[product_long_desc] = "Outra descrição longa para o produto exemplo 2"
-            it[product_price] = 299.99f
-            it[product_discount] = 15.0f
-            it[product_status] = "Indisponível"
-            it[product_has_stocks] = "Não"
-            it[product_width] = 15.0f
-            it[product_lenght] = 25.0f
-            it[product_height] = 8.0f
-            it[product_cost] = 120.0f
-            it[product_creation_time] = "2024-02-01T14:30:00"
-            it[product_update_time] = "2024-02-02T15:45:00"
+        for (i in 10..30) {
+            Products.insert {
+                it[id_brand] = 1
+                it[product_name] = "Produto Exemplo $i"
+                it[product_main_photo] = "Blob $i"
+                it[product_short_desc] = "Descrição curta para produto $i"
+                it[product_long_desc] = "Descrição longa para produto $i"
+                it[product_price] = (100 + i * 5).toFloat()
+                it[product_discount] = (5 * i).toFloat()
+                it[product_status] = if (i % 2 == 0) "Disponível" else "Indisponível"
+                it[product_has_stocks] = if (i % 2 == 0) "Sim" else "Não"
+                it[product_width] = (10 + i).toFloat()
+                it[product_lenght] = (20 + i).toFloat()
+                it[product_height] = (5 + i).toFloat()
+                it[product_cost] = (40 + i * 2).toFloat()
+                it[product_creation_time] = "2024-01-01T12:00:${i * 2}"
+                it[product_update_time] = "2024-01-02T15:00:${i * 3}"
+            }
         }
     }
 }
