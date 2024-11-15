@@ -40,7 +40,7 @@
     // Function to fetch products and display them in the table
     async function fetchProducts() {
         try {
-            const response = await fetch('http://localhost:8080/products');
+            const response = await fetch('http://localhost:8080/api/products');
             const products = await response.json();
 
             const tableBody = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
@@ -52,7 +52,7 @@
                         <td>${product.id}</td>
                         <td>${product.id_brand}</td>
                         <td>${product.product_name}</td>
-                        <td>${product.product_main_photo}</td>
+                        <td><img src="http://localhost:8080/images/${product.product_main_photo}" width="70px"> </td>
                         <td>${product.product_short_desc}</td>
                         <td>${product.product_long_desc}</td>
                         <td>${product.product_price}</td>

@@ -8,7 +8,6 @@ import com.example.mapping.ProductsCategories
 import com.example.mapping.Roles
 import com.example.mapping.Users
 import com.example.mapping.UsersRoles
-import io.ktor.server.application.*
 import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -19,7 +18,7 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun Application.configureDatabases(config: ApplicationConfig) {
+fun configureDatabases(config: ApplicationConfig) {
     // Dados devem estar batendo com os do docker-compose.yml
     val url = config.property("storage.jdbcURL").getString()
     val user = config.property("storage.user").getString()
@@ -70,27 +69,27 @@ fun intializeData() {
         }
     }
 
-    if (Products.selectAll().empty()) {
-        for (i in 10..30) {
-            Products.insert {
-                it[id_brand] = 1
-                it[product_name] = "Produto Exemplo $i"
-                it[product_main_photo] = "Blob $i"
-                it[product_short_desc] = "Descrição curta para produto $i"
-                it[product_long_desc] = "Descrição longa para produto $i"
-                it[product_price] = (100 + i * 5).toFloat()
-                it[product_discount] = (5 * i).toFloat()
-                it[product_status] = if (i % 2 == 0) "Disponível" else "Indisponível"
-                it[product_has_stocks] = if (i % 2 == 0) "Sim" else "Não"
-                it[product_width] = (10 + i).toFloat()
-                it[product_lenght] = (20 + i).toFloat()
-                it[product_height] = (5 + i).toFloat()
-                it[product_cost] = (40 + i * 2).toFloat()
-                it[product_creation_time] = "2024-01-01T12:00:${i * 2}"
-                it[product_update_time] = "2024-01-02T15:00:${i * 3}"
-            }
-        }
-    }
+//    if (Products.selectAll().empty()) {
+//        for (i in 10..30) {
+//            Products.insert {
+//                it[id_brand] = 1
+//                it[product_name] = "Produto Exemplo $i"
+//                it[product_main_photo] = "vinil_ariana.jpeg"
+//                it[product_short_desc] = "Descrição curta para produto $i"
+//                it[product_long_desc] = "Descrição longa para produto $i"
+//                it[product_price] = (100 + i * 5).toFloat()
+//                it[product_discount] = (5 * i).toFloat()
+//                it[product_status] = if (i % 2 == 0) "Disponível" else "Indisponível"
+//                it[product_has_stocks] = if (i % 2 == 0) "Sim" else "Não"
+//                it[product_width] = (10 + i).toFloat()
+//                it[product_lenght] = (20 + i).toFloat()
+//                it[product_height] = (5 + i).toFloat()
+//                it[product_cost] = (40 + i * 2).toFloat()
+//                it[product_creation_time] = "2024-01-01T12:00:${i * 2}"
+//                it[product_update_time] = "2024-01-02T15:00:${i * 3}"
+//            }
+//        }
+//    }
 }
 
 // Função responsável por executar o "block" numa transação de banco de dados usando

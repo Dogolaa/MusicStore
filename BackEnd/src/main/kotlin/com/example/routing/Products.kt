@@ -1,0 +1,61 @@
+package com.example.routing
+
+import com.example.model.Product
+import com.example.repositories.product.ProductRepository
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.routing.*
+
+fun Routing.productRoutes(productRepository: ProductRepository) {
+    route("/api/products") {
+        get {
+            val ascending = call.request.queryParameters["asc"]?.toBoolean() != false
+            val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
+
+            val pageSize = 10
+            val offset = (page - 1) * pageSize
+
+            val products = productRepository.allProducts(ascending, offset, pageSize)
+
+            if (products.isEmpty()) {
+                call.respond(HttpStatusCode.NoContent, "No products found")
+                return@get
+            }
+
+            call.respond(products)
+        }
+
+        post {
+            try {
+                val product = call.receive<Product>()
+                productRepository.addProduct(product)
+                call.respond(HttpStatusCode.Created, "Produto adicionado com sucesso!")
+            } catch (ex: Exception) {
+                call.respond(
+                    HttpStatusCode.InternalServerError,
+                    "Erro inesperado: ${ex.message ?: "Entre em contato com o suporte."}"
+                )
+            }
+        }
+
+        put("/{id}") {
+            // TODO: Implementar mudança de atributos do produto por aqui
+
+        }
+
+        delete("/{id}") {
+            val id = call.parameters["id"]
+            if (id == null) {
+                call.respond(HttpStatusCode.BadRequest)
+                return@delete
+            }
+            if (productRepository.removeProductById(id.toInt())) {
+                call.respond(HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.NotFound)
+            }
+        }
+
+    }
+}
