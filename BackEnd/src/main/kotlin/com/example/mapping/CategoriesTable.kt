@@ -24,5 +24,5 @@ fun daoToModel(dao: CategoryDAO) = Category(
     id = dao.id.value,
     id_category_parent = dao.id_category_parent?.id?.value,
     category_name = dao.category_name,
-    category_ph_content = dao.category_ph_content.toString()
+    category_ph_content = dao.category_ph_content
 )

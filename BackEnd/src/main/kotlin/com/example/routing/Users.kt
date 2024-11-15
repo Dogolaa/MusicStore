@@ -1,4 +1,4 @@
-package com.example.plugins.routing
+package com.example.routing
 
 import com.example.model.User
 import com.example.plugins.verifyPassword
@@ -14,7 +14,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 
 fun Routing.userRoutes(userRepository: UserRepository) {
-    route("/users") {
+    route("/api/users") {
         get {
             val users = userRepository.allUsers()
 

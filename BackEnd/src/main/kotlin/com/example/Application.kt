@@ -17,7 +17,7 @@ fun Application.module() {
     configureSecurity()
     configureSerialization(
         PostgresBrandRepository(),
-        PostgresProductRepository(),
+        PostgresProductRepository(PostgresBrandRepository()),
         PostgresUserRepository()
     )
     // "enviroment.config" coleta os dados do arquivo application.yaml

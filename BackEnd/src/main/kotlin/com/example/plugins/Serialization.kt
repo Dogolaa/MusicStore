@@ -1,8 +1,8 @@
 package com.example.plugins
 
-import com.example.plugins.routing.brandRoutes
-import com.example.plugins.routing.productRoutes
-import com.example.plugins.routing.userRoutes
+import com.example.routing.brandRoutes
+import com.example.routing.productRoutes
+import com.example.routing.userRoutes
 import com.example.repositories.brand.PostgresBrandRepository
 import com.example.repositories.product.PostgresProductRepository
 import com.example.repositories.user.PostgresUserRepository
@@ -21,6 +21,7 @@ fun Application.configureSerialization(
         json()
     }
     routing {
+        staticResources("/images", "images")
         staticResources("/static", "static")
 
         brandRoutes(brandRepository)
