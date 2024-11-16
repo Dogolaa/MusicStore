@@ -11,7 +11,7 @@
 
 ## 📂 Project Structure
 
-- **`backend/`**: Directory containing the backend implementation in ExpressJS.
+- **`backend/`**: Directory containing the backend implementation in Kotlin.
 - **`frontend/`**: Directory containing the frontend implementation in React+Vite.
 
 <br>
@@ -20,10 +20,10 @@
 
 - JavaScript
 - NodeJS
-- ExpressJS
+- Ktor
 - React
 - Axios
-- MySQL
+- PostgreSQL
 
 <br>
 
