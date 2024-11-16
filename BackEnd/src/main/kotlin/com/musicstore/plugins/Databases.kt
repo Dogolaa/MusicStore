@@ -56,7 +56,7 @@ fun intializeData() {
             it[user_email] = "lucas@gmail.com"
             it[user_name] = "Lucas"
             it[user_last_name] = "Souza"
-            it[user_password] = "senha123"
+            it[user_password] = "senha123".hashPassword()
             it[user_status] = 1
             it[user_ph_content] = "teste1"
         }
@@ -64,7 +64,7 @@ fun intializeData() {
             it[user_email] = "caio@gmail.com"
             it[user_name] = "Caio"
             it[user_last_name] = "Souza"
-            it[user_password] = "senha1234"
+            it[user_password] = "senha1234".hashPassword()
             it[user_status] = 1
             it[user_ph_content] = "teste2"
         }
@@ -72,7 +72,7 @@ fun intializeData() {
             it[user_email] = "ana@gmail.com"
             it[user_name] = "Ana"
             it[user_last_name] = "Souza"
-            it[user_password] = "senha12345"
+            it[user_password] = "senha12345".hashPassword()
             it[user_status] = 1
             it[user_ph_content] = "teste3"
         }
@@ -80,7 +80,7 @@ fun intializeData() {
             it[user_email] = "julia@gmail.com"
             it[user_name] = "Julia"
             it[user_last_name] = "Souza"
-            it[user_password] = "senha12345"
+            it[user_password] = "senha12345".hashPassword()
             it[user_status] = 1
             it[user_ph_content] = "teste3"
         }
