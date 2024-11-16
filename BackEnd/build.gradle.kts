@@ -10,7 +10,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
 }
 
-group = "com.example"
+group = "com.musicstore"
 version = "0.0.1"
 
 application {
