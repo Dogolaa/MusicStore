@@ -1,6 +1,7 @@
 package com.example.routing
 
 import com.example.model.Product
+import com.example.model.request.UpdateProduct
 import com.example.repositories.product.ProductRepository
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
@@ -41,7 +42,15 @@ fun Routing.productRoutes(productRepository: ProductRepository) {
 
         put("/{id}") {
             // TODO: Implementar mudança de atributos do produto por aqui
+            val id = call.parameters["id"]
+            if(id == null) {
+                call.respond(HttpStatusCode.BadRequest)
+                return@put
+            }
 
+            val product = call.receive<UpdateProduct>()
+            productRepository.updateProductById(id.toInt(), product)
+            call.respond(HttpStatusCode.OK)
         }
 
         delete("/{id}") {

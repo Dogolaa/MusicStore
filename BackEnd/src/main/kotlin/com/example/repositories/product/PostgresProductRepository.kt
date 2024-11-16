@@ -5,6 +5,7 @@ import com.example.mapping.ProductDAO
 import com.example.mapping.Products
 import com.example.mapping.daoToModel
 import com.example.model.Product
+import com.example.model.request.UpdateProduct
 import com.example.plugins.suspendTransaction
 import com.example.repositories.brand.BrandRepository
 import kotlinx.coroutines.runBlocking
@@ -51,8 +52,33 @@ class PostgresProductRepository(
         }
     }
 
-    override suspend fun productById(id: Int): Product {
+    override suspend fun productById(id: Int): Product = suspendTransaction {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun updateProductById(id: Int, product: UpdateProduct): Unit = suspendTransaction {
+        runBlocking {
+            if(product.id_brand != null){
+                BrandRepository.brandById(product.id_brand) ?: throw Exception("Esta marca com ID ${product.id_brand} não existe")
+            }
+        }
+
+        ProductDAO.findByIdAndUpdate(id){ entity ->
+            product.id_brand?.let { entity.id_brand = EntityID(it, Brands) }
+            product.product_name?.let { entity.product_name = it }
+            product.product_main_photo?.let { entity.product_main_photo = it }
+            product.product_short_desc?.let { entity.product_short_desc = it }
+            product.product_long_desc?.let { entity.product_long_desc = it }
+            product.product_price?.let { entity.product_price = it }
+            product.product_discount?.let { entity.product_discount = it }
+            product.product_status?.let { entity.product_status = it }
+            product.product_has_stocks?.let { entity.product_has_stocks = it }
+            product.product_width?.let { entity.product_width = it }
+            product.product_lenght?.let { entity.product_lenght = it }
+            product.product_height?.let { entity.product_height = it }
+            product.product_cost?.let { entity.product_cost = it }
+            product.product_update_time.let { entity.product_update_time = it }
+        }
     }
 
     override suspend fun removeProductById(id: Int): Boolean = suspendTransaction {
