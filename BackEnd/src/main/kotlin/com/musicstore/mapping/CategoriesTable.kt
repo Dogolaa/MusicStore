@@ -9,7 +9,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 object Categories : IntIdTable("categories") {
     val id_category_parent = optReference("id_category_parent", Categories)
     val category_name = varchar("category_name", 255)
-    val category_ph_content = blob("category_ph_content")
+    val category_ph_content = varchar("category_ph_content", 100)
 }
 
 class CategoryDAO(id: EntityID<Int>) : IntEntity(id) {
