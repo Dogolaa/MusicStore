@@ -1,12 +1,15 @@
 # Back End
 
-(não é o readme final, é só pra explicar pros outros como fazer isso funcionar no pc de voces, depois formatem)
+## Como rodar o projeto
 
-1. Abra especificamente a pasta BackEnd (`MusicStore/BackEnd`) com o Intelij
-2. Espere baixar os pacotes do gradle
-3. O Java ideal para rodar este projeto é 20, já tentei outros e dava erro
-4. Com o docker instalado, abra o arquivo `docker-compose.yml`. Clique no botão de play que fica do lado esquerdo da
-   primeira linha. Talvez demore um pouco se você não tem a imagem do postgres baixada.
-5. Agora você já pode executar o projeto, clique no botão de play no topo do Intelij
+1. Abra especificamente a pasta BackEnd (`MusicStore/BackEnd`) com o Intellij
+> O Java ideal para rodar este projeto é 20, já tentei outros e dava erro
+2. Com o Docker instalado, abra o arquivo `docker-compose.yml`. Clique no botão de play que fica do lado esquerdo da
+   primeira linha.
+> Talvez demore um pouco se você não tem a imagem do postgres baixada.
+3. Agora você já pode executar o projeto, clique no botão de play no topo do Intellij com o `EngineMain` selecionado
 
-Link pro index que criei (temporário): http://localhost:8080/static/index.html
+**Importante:** Eu configurei o Ktor para criar automaticamente as tabelas no banco de dados e dados fictícios, então não é necessário criar nada manualmente ✨
+
+
+👉 [Acesse a documentação da API](https://musicstore-devs.postman.co/workspace/Musicstore~3fb4ab8c-67ba-4d5e-9d3a-781853b386b0/collection/25805729-cbcaa52c-017c-4f6f-b506-50bca36b3cff?action=share&creator=25805729)
