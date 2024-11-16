@@ -55,7 +55,6 @@ fun Routing.productRoutes(productRepository: ProductRepository) {
         }
 
         put("/{id}") {
-            // TODO: Implementar mudança de atributos do produto por aqui
             val id = call.parameters["id"]
             if(id == null) {
                 call.respond(HttpStatusCode.BadRequest)
