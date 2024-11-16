@@ -52,8 +52,8 @@ class PostgresProductRepository(
         }
     }
 
-    override suspend fun productById(id: Int): Product = suspendTransaction {
-        TODO("Not yet implemented")
+    override suspend fun productById(id: Int): Product? = suspendTransaction {
+        ProductDAO.find { (Products.id eq id) }.limit(1).map(::daoToModel).firstOrNull()
     }
 
     override suspend fun updateProductById(id: Int, product: UpdateProduct): Unit = suspendTransaction {

@@ -27,6 +27,20 @@ fun Routing.productRoutes(productRepository: ProductRepository) {
             call.respond(products)
         }
 
+        get("/{id}") {
+            val id = call.parameters["id"]
+            if (id == null) {
+                call.respond(HttpStatusCode.BadRequest, "Missing id")
+                return@get
+            }
+            val product = productRepository.productById(id.toInt())
+            if (product == null) {
+                call.respond(HttpStatusCode.NotFound)
+                return@get
+            }
+            call.respond(product)
+        }
+
         post {
             try {
                 val product = call.receive<Product>()
