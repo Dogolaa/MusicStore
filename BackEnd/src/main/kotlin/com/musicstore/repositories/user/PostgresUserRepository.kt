@@ -1,7 +1,7 @@
 package com.musicstore.repositories.user
 
 import com.musicstore.mapping.UserDAO
-import com.musicstore.mapping.Users
+import com.musicstore.mapping.UserTable
 import com.musicstore.mapping.daoToModel
 import com.musicstore.model.User
 import com.musicstore.plugins.hashPassword
@@ -13,7 +13,7 @@ class PostgresUserRepository : UserRepository {
     }
 
     override suspend fun userById(id: Int): User? = suspendTransaction {
-        UserDAO.find { (Users.id eq id) }.limit(1).map(::daoToModel).firstOrNull()
+        UserDAO.find { (UserTable.id eq id) }.limit(1).map(::daoToModel).firstOrNull()
     }
 
     override suspend fun addUser(user: User): Unit = suspendTransaction {
@@ -32,6 +32,6 @@ class PostgresUserRepository : UserRepository {
     }
 
     override suspend fun findByEmail(email: String): User? = suspendTransaction {
-        UserDAO.find { (Users.user_email eq email) }.limit(1).map(::daoToModel).firstOrNull()
+        UserDAO.find { (UserTable.user_email eq email) }.limit(1).map(::daoToModel).firstOrNull()
     }
 }

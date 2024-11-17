@@ -5,6 +5,7 @@ import com.musicstore.plugins.configureSecurity
 import com.musicstore.plugins.configureSerialization
 import com.musicstore.repositories.brand.PostgresBrandRepository
 import com.musicstore.repositories.product.PostgresProductRepository
+import com.musicstore.repositories.role.PostgresRoleRepository
 import com.musicstore.repositories.user.PostgresUserRepository
 import io.ktor.server.application.*
 
@@ -13,14 +14,17 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    // Instâncias da pasta de plugins
-    configureSecurity()
+    configureSecurity(
+        PostgresUserRepository(),
+        PostgresRoleRepository()
+    )
+
     configureSerialization(
         PostgresBrandRepository(),
         PostgresProductRepository(PostgresBrandRepository()),
-        PostgresUserRepository()
+        PostgresUserRepository(),
+        PostgresRoleRepository()
     )
-    // "enviroment.config" coleta os dados do arquivo application.yaml
-    // Dentro de plugins/Database.kt é feita a conexão com o banco de dados
+
     configureDatabases(environment.config)
 }

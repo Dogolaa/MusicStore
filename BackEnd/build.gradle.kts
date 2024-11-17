@@ -41,7 +41,6 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml")
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:$exposed_version")
-    // TODO Creditar bcript depois
     implementation("at.favre.lib:bcrypt:0.10.2")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")

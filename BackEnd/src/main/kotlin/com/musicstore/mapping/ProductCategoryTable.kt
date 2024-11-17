@@ -6,16 +6,16 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-object ProductsCategories : IntIdTable("product_category") {
-    val id_category = reference("id_category", Categories)
-    val id_product = reference("id_product", Products)
+object ProductCategoryTable : IntIdTable("product_category") {
+    val id_category = reference("id_category", CategoryTable)
+    val id_product = reference("id_product", ProductTable)
 }
 
 class ProductsCategoriesDAO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<ProductDAO>(Products)
+    companion object : IntEntityClass<ProductDAO>(ProductTable)
 
-    var id_category by ProductsCategories.id_category
-    var id_product by ProductsCategories.id_product
+    var id_category by ProductCategoryTable.id_category
+    var id_product by ProductCategoryTable.id_product
 }
 
 fun daoToModel(dao: ProductsCategoriesDAO) = ProductCategory(
