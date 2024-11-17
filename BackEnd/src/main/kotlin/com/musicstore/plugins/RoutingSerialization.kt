@@ -1,13 +1,13 @@
 package com.musicstore.plugins
 
-import com.musicstore.routing.brandRoutes
-import com.musicstore.routing.productRoutes
-import com.musicstore.routing.userRoutes
+import com.musicstore.routes.brandRoutes
+import com.musicstore.routes.productRoutes
+import com.musicstore.routes.userRoutes
 import com.musicstore.repositories.brand.PostgresBrandRepository
 import com.musicstore.repositories.product.PostgresProductRepository
 import com.musicstore.repositories.role.PostgresRoleRepository
 import com.musicstore.repositories.user.PostgresUserRepository
-import com.musicstore.routing.roleRoutes
+import com.musicstore.routes.roleRoutes
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.staticResources

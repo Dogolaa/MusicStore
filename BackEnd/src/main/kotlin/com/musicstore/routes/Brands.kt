@@ -1,4 +1,4 @@
-package com.musicstore.routing
+package com.musicstore.routes
 
 import com.musicstore.repositories.brand.BrandRepository
 import io.ktor.http.*

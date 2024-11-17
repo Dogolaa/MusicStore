@@ -1,4 +1,4 @@
-package com.musicstore.routing
+package com.musicstore.routes
 
 import com.musicstore.repositories.role.RoleRepository
 import io.ktor.http.HttpStatusCode

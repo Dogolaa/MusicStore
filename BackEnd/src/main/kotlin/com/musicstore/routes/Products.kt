@@ -1,4 +1,4 @@
-package com.musicstore.routing
+package com.musicstore.routes
 
 import com.musicstore.model.Product
 import com.musicstore.model.request.UpdateProduct
