@@ -1,0 +1,110 @@
+/* AddProduct.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  
+  .add-product {
+    width: 90%;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+  
+  input[type="file"] {
+    border: none;
+  }
+  
+  button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #444;
+  }
+  
+  label {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .checkbox-group input {
+    margin-right: 5px;
+  }
+  
+  .return-link {
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .return-link:hover {
+    text-decoration: underline;
+  }
+  
+  .add-detail {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .add-detail input {
+    flex: 1;
+  }
+  
+  .add-detail button {
+    flex: 0;
+    padding: 5px 10px;
+  }
+  

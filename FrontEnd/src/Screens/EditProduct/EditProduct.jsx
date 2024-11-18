@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./EditProduct.css";
 
 const EditProduct = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Obtém o id da URL
   const [product, setProduct] = useState({});
   const navigate = useNavigate();
 
@@ -22,15 +22,24 @@ const EditProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // No corpo da requisição, enviamos apenas as informações do produto sem o id
+    const updatedProduct = {
+      product_name: product.product_name,
+      product_short_desc: product.product_short_desc,
+      product_long_desc: product.product_long_desc,
+      product_price: product.product_price,
+    };
+
     fetch(`http://localhost:8080/api/products/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "api-key": "your-api-key",
       },
-      body: JSON.stringify(product),
+      body: JSON.stringify(updatedProduct), // Enviando os dados do produto sem o id
     })
-      .then(() => navigate("/"))
+      .then(() => navigate("/")) // Redireciona para a página principal após a atualização
       .catch((err) => console.error(err));
   };
 
