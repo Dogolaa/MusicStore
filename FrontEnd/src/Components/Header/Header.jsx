@@ -12,8 +12,9 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">
-        <img src="/path/to/logo.png" alt="Music Store Logo" />
-        <span>Music Store</span>
+        <Link to="/" className="logo-link">
+          <img src="/path/to/logo.png" alt="Music Store Logo" className="logo-image" />
+        </Link>
       </div>
       <div className="menu-icon" onClick={toggleMenu}>
         ☰
