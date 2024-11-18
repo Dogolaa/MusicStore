@@ -12,8 +12,9 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">
-        <img src="/path/to/logo.png" alt="Music Store Logo" />
-        <span>Music Store</span>
+        <Link to="/" className="logo-link">
+          <img src="/path/to/logo.png" alt="Music Store Logo" className="logo-image" />
+        </Link>
       </div>
       <div className="menu-icon" onClick={toggleMenu}>
         ☰
@@ -25,7 +26,7 @@ const Header = () => {
         <Link to="/customers">Customers</Link>
         <Link to="/menus">Menus</Link>
         <Link to="/orders">Orders</Link>
-        <Link to="/products">Products</Link>
+        <Link to="/admin/products">Products</Link>
         <Link to="/sales-report">Sales Report</Link>
         <Link to="/settings">Settings</Link>
         <Link to="/shipping">Shipping</Link>
