@@ -5,10 +5,11 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.ReferenceOption
 
 object UserRoleTable : IntIdTable("users_roles") {
-    val id_user = reference("id_user", UserTable)
-    val id_role = reference("id_role", RoleTable)
+    val id_user = reference("id_user", Users, onDelete = ReferenceOption.CASCADE)
+    val id_role = reference("id_role", Roles, onDelete = ReferenceOption.CASCADE)
 }
 
 class UserRoleDAO(id: EntityID<Int>) : IntEntity(id) {
