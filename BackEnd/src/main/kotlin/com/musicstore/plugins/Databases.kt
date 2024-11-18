@@ -1,13 +1,13 @@
 package com.musicstore.plugins
 
-import com.musicstore.mapping.BrandTable
 import com.musicstore.mapping.BrandCategoryTable
+import com.musicstore.mapping.BrandTable
 import com.musicstore.mapping.CategoryTable
-import com.musicstore.mapping.ProductTable
 import com.musicstore.mapping.ProductCategoryTable
+import com.musicstore.mapping.ProductTable
 import com.musicstore.mapping.RoleTable
-import com.musicstore.mapping.UserTable
 import com.musicstore.mapping.UserRoleTable
+import com.musicstore.mapping.UserTable
 import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
@@ -64,7 +64,7 @@ fun intializeData() {
             it[user_email] = "caio@gmail.com"
             it[user_name] = "Caio"
             it[user_last_name] = "Souza"
-            it[user_password] = "senha1234".hashPassword()
+            it[user_password] = "senha123".hashPassword()
             it[user_status] = 1
             it[user_ph_content] = "teste2"
         }
@@ -72,7 +72,7 @@ fun intializeData() {
             it[user_email] = "ana@gmail.com"
             it[user_name] = "Ana"
             it[user_last_name] = "Souza"
-            it[user_password] = "senha12345".hashPassword()
+            it[user_password] = "senha123".hashPassword()
             it[user_status] = 1
             it[user_ph_content] = "teste3"
         }
@@ -80,18 +80,26 @@ fun intializeData() {
             it[user_email] = "julia@gmail.com"
             it[user_name] = "Julia"
             it[user_last_name] = "Souza"
-            it[user_password] = "senha12345".hashPassword()
+            it[user_password] = "senha123".hashPassword()
             it[user_status] = 1
-            it[user_ph_content] = "teste3"
+            it[user_ph_content] = "teste4"
         }
         UserTable.insert {
-            it[user_email] = ""
-            it[user_name] = "Postman"
-            it[user_last_name] = ""
-            it[user_password] = "postman".hashPassword()
+            it[user_email] = "joao@gmail.com"
+            it[user_name] = "João"
+            it[user_last_name] = "Souza"
+            it[user_password] = "senha123".hashPassword()
             it[user_status] = 1
-            it[user_ph_content] = ""
+            it[user_ph_content] = "teste5"
         }
+//        UserTable.insert {
+//            it[user_email] = ""
+//            it[user_name] = "Postman"
+//            it[user_last_name] = ""
+//            it[user_password] = "postman".hashPassword()
+//            it[user_status] = 1
+//            it[user_ph_content] = ""
+//        }
     }
 
     if (RoleTable.selectAll().empty()) {
@@ -129,6 +137,14 @@ fun intializeData() {
         UserRoleTable.insert {
             it[id_user] = 4
             it[id_role] = 4
+        }
+        UserRoleTable.insert {
+            it[id_user] = 5
+            it[id_role] = 2
+        }
+        UserRoleTable.insert {
+            it[id_user] = 5
+            it[id_role] = 3
         }
     }
 
