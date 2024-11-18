@@ -7,16 +7,16 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
 
-object BrandsCategories : IntIdTable("brands_categories") {
-    val id_brand = reference("id_brand", Brands, onDelete = ReferenceOption.CASCADE)
-    val id_category = reference("id_category", Categories, onDelete = ReferenceOption.CASCADE)
+object BrandCategoryTable : IntIdTable("brands_categories") {
+    val id_brand = reference("id_brand", BrandTable, onDelete = ReferenceOption.CASCADE)
+    val id_category = reference("id_category", CategoryTable, onDelete = ReferenceOption.CASCADE)
 }
 
 class BrandCategoryDAO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<BrandCategoryDAO>(BrandsCategories)
+    companion object : IntEntityClass<BrandCategoryDAO>(BrandCategoryTable)
 
-    var id_brand by BrandsCategories.id_brand
-    var id_category by BrandsCategories.id_category
+    var id_brand by BrandCategoryTable.id_brand
+    var id_category by BrandCategoryTable.id_category
 }
 
 fun daoToModel(dao: BrandCategoryDAO) = BrandCategory(

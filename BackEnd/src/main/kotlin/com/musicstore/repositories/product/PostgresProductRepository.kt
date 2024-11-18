@@ -1,8 +1,8 @@
 package com.musicstore.repositories.product
 
-import com.musicstore.mapping.Brands
+import com.musicstore.mapping.BrandTable
 import com.musicstore.mapping.ProductDAO
-import com.musicstore.mapping.Products
+import com.musicstore.mapping.ProductTable
 import com.musicstore.mapping.daoToModel
 import com.musicstore.model.Product
 import com.musicstore.model.request.UpdateProduct
@@ -23,18 +23,19 @@ class PostgresProductRepository(
 
             ProductDAO
                 .all()
-                .orderBy(Products.product_name to sortOrder)
+                .orderBy(ProductTable.product_name to sortOrder)
                 .limit(limit, offset = offset.toLong())
                 .map(::daoToModel)
         }
 
     override suspend fun addProduct(product: Product): Unit = suspendTransaction {
         runBlocking {
-            BrandRepository.brandById(product.id_brand) ?: throw Exception("Esta marca com ID ${product.id_brand} não existe")
+            BrandRepository.brandById(product.id_brand)
+                ?: throw Exception("Esta marca com ID ${product.id_brand} não existe")
         }
 
         ProductDAO.new {
-            id_brand = EntityID(product.id_brand, Brands)
+            id_brand = EntityID(product.id_brand, BrandTable)
             product_name = product.product_name
             product_main_photo = product.product_main_photo
             product_short_desc = product.product_short_desc
@@ -53,18 +54,19 @@ class PostgresProductRepository(
     }
 
     override suspend fun productById(id: Int): Product? = suspendTransaction {
-        ProductDAO.find { (Products.id eq id) }.limit(1).map(::daoToModel).firstOrNull()
+        ProductDAO.find { (ProductTable.id eq id) }.limit(1).map(::daoToModel).firstOrNull()
     }
 
     override suspend fun updateProductById(id: Int, product: UpdateProduct): Unit = suspendTransaction {
         runBlocking {
-            if(product.id_brand != null){
-                BrandRepository.brandById(product.id_brand) ?: throw Exception("Esta marca com ID ${product.id_brand} não existe")
+            if (product.id_brand != null) {
+                BrandRepository.brandById(product.id_brand)
+                    ?: throw Exception("Esta marca com ID ${product.id_brand} não existe")
             }
         }
 
-        ProductDAO.findByIdAndUpdate(id){ entity ->
-            product.id_brand?.let { entity.id_brand = EntityID(it, Brands) }
+        ProductDAO.findByIdAndUpdate(id) { entity ->
+            product.id_brand?.let { entity.id_brand = EntityID(it, BrandTable) }
             product.product_name?.let { entity.product_name = it }
             product.product_main_photo?.let { entity.product_main_photo = it }
             product.product_short_desc?.let { entity.product_short_desc = it }
@@ -82,8 +84,8 @@ class PostgresProductRepository(
     }
 
     override suspend fun removeProductById(id: Int): Boolean = suspendTransaction {
-        val rowsDeleted = Products.deleteWhere {
-            Products.id eq id
+        val rowsDeleted = ProductTable.deleteWhere {
+            ProductTable.id eq id
         }
         rowsDeleted == 1
     }

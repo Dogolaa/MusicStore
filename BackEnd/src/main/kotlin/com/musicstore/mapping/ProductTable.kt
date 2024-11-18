@@ -7,8 +7,8 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
-object Products : IntIdTable("products") {
-    val id_brand = reference("id_brand", Brands)
+object ProductTable : IntIdTable("products") {
+    val id_brand = reference("id_brand", BrandTable)
     val product_name = varchar("product_name", 100)
     val product_main_photo = varchar("product_main_photo", 100)
     val product_short_desc = varchar("product_short_desc", 100)
@@ -26,23 +26,23 @@ object Products : IntIdTable("products") {
 }
 
 class ProductDAO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<ProductDAO>(Products)
+    companion object : IntEntityClass<ProductDAO>(ProductTable)
 
-    var id_brand by Products.id_brand
-    var product_name by Products.product_name
-    var product_main_photo by Products.product_main_photo
-    var product_short_desc by Products.product_short_desc
-    var product_long_desc by Products.product_long_desc
-    var product_price by Products.product_price
-    var product_discount by Products.product_discount
-    var product_status by Products.product_status
-    var product_has_stocks by Products.product_has_stocks
-    var product_width by Products.product_width
-    var product_lenght by Products.product_lenght
-    var product_height by Products.product_height
-    var product_cost by Products.product_cost
-    var product_creation_time by Products.product_creation_time
-    var product_update_time by Products.product_update_time
+    var id_brand by ProductTable.id_brand
+    var product_name by ProductTable.product_name
+    var product_main_photo by ProductTable.product_main_photo
+    var product_short_desc by ProductTable.product_short_desc
+    var product_long_desc by ProductTable.product_long_desc
+    var product_price by ProductTable.product_price
+    var product_discount by ProductTable.product_discount
+    var product_status by ProductTable.product_status
+    var product_has_stocks by ProductTable.product_has_stocks
+    var product_width by ProductTable.product_width
+    var product_lenght by ProductTable.product_lenght
+    var product_height by ProductTable.product_height
+    var product_cost by ProductTable.product_cost
+    var product_creation_time by ProductTable.product_creation_time
+    var product_update_time by ProductTable.product_update_time
 }
 
 fun daoToModel(dao: ProductDAO) = Product(

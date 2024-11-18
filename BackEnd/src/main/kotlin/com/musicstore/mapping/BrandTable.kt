@@ -6,16 +6,16 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-object Brands : IntIdTable("brands") {
+object BrandTable : IntIdTable("brands") {
     val brand_name = varchar("brand_name", 100)
     val brand_ph_content = varchar("brand_ph_content", 45)
 }
 
 class BrandDAO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<BrandDAO>(Brands)
+    companion object : IntEntityClass<BrandDAO>(BrandTable)
 
-    var brand_name by Brands.brand_name
-    var brand_ph_content by Brands.brand_ph_content
+    var brand_name by BrandTable.brand_name
+    var brand_ph_content by BrandTable.brand_ph_content
 }
 
 fun daoToModel(dao: BrandDAO) = Brand(

@@ -1,4 +1,4 @@
-package com.musicstore.routing
+package com.musicstore.routes
 
 import com.musicstore.model.Product
 import com.musicstore.model.request.UpdateProduct
@@ -8,7 +8,8 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
 
-fun Routing.productRoutes(productRepository: ProductRepository) {
+fun Route.productRoute(productRepository: ProductRepository) {
+
     route("/api/products") {
         get {
             val ascending = call.request.queryParameters["asc"]?.toBoolean() != false
@@ -56,7 +57,7 @@ fun Routing.productRoutes(productRepository: ProductRepository) {
 
         put("/{id}") {
             val id = call.parameters["id"]
-            if(id == null) {
+            if (id == null) {
                 call.respond(HttpStatusCode.BadRequest)
                 return@put
             }
