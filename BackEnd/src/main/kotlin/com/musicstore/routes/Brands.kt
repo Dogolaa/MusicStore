@@ -1,11 +1,11 @@
-package com.musicstore.routing
+package com.musicstore.routes
 
 import com.musicstore.repositories.brand.BrandRepository
 import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-fun Routing.brandRoutes(brandRepository: BrandRepository) {
+fun Route.brandRoute(brandRepository: BrandRepository) {
     route("/api/brands") {
         get {
             val brands = brandRepository.allBrands()

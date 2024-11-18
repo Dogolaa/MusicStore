@@ -7,16 +7,16 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
 
-object UsersRoles : IntIdTable("users_roles") {
-    val id_user = reference("id_user", Users, onDelete = ReferenceOption.CASCADE)
-    val id_role = reference("id_role", Roles, onDelete = ReferenceOption.CASCADE)
+object UserRoleTable : IntIdTable("users_roles") {
+    val id_user = reference("id_user", UserTable, onDelete = ReferenceOption.CASCADE)
+    val id_role = reference("id_role", RoleTable, onDelete = ReferenceOption.CASCADE)
 }
 
 class UserRoleDAO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<UserRoleDAO>(UsersRoles)
+    companion object : IntEntityClass<UserRoleDAO>(UserRoleTable)
 
-    var id_user by UsersRoles.id_user
-    var id_role by UsersRoles.id_role
+    var id_user by UserRoleTable.id_user
+    var id_role by UserRoleTable.id_role
 }
 
 fun daoToModel(dao: UserRoleDAO) = UserRole(

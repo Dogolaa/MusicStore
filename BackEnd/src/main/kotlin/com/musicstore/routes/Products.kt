@@ -1,4 +1,4 @@
-package com.musicstore.routing
+package com.musicstore.routes
 
 import com.musicstore.model.Product
 import com.musicstore.model.request.UpdateProduct
@@ -8,23 +8,19 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
 
-fun Routing.productRoutes(productRepository: ProductRepository) {
+fun Route.productRoute(productRepository: ProductRepository) {
+
     route("/api/products") {
         get {
             val ascending = call.request.queryParameters["asc"]?.toBoolean() != false
             val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
 
-            val pageSize = 10
-            val offset = (page - 1) * pageSize
+            val paginatedProducts = productRepository.allProducts(
+                ascending = ascending,
+                page = page,
+            )
 
-            val products = productRepository.allProducts(ascending, offset, pageSize)
-
-            if (products.isEmpty()) {
-                call.respond(HttpStatusCode.NoContent, "No products found")
-                return@get
-            }
-
-            call.respond(products)
+            call.respond(paginatedProducts)
         }
 
         get("/{id}") {
@@ -56,7 +52,7 @@ fun Routing.productRoutes(productRepository: ProductRepository) {
 
         put("/{id}") {
             val id = call.parameters["id"]
-            if(id == null) {
+            if (id == null) {
                 call.respond(HttpStatusCode.BadRequest)
                 return@put
             }

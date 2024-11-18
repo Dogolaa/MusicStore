@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-object Users : IntIdTable("users") {
+object UserTable : IntIdTable("users") {
     val user_email = varchar("user_email", 100).uniqueIndex()
     val user_name = varchar("user_name", 100)
     val user_last_name = varchar("user_last_name", 100)
@@ -16,14 +16,14 @@ object Users : IntIdTable("users") {
 }
 
 class UserDAO(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<UserDAO>(Users)
+    companion object : IntEntityClass<UserDAO>(UserTable)
 
-    var user_email by Users.user_email
-    var user_name by Users.user_name
-    var user_last_name by Users.user_last_name
-    var user_password by Users.user_password
-    var user_status by Users.user_status
-    var user_ph_content by Users.user_ph_content
+    var user_email by UserTable.user_email
+    var user_name by UserTable.user_name
+    var user_last_name by UserTable.user_last_name
+    var user_password by UserTable.user_password
+    var user_status by UserTable.user_status
+    var user_ph_content by UserTable.user_ph_content
 }
 
 fun daoToModel(dao: UserDAO) = User(
