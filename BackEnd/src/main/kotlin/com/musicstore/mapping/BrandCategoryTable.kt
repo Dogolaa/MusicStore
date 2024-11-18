@@ -8,8 +8,8 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
 
 object BrandCategoryTable : IntIdTable("brands_categories") {
-    val id_brand = reference("id_brand", Brands, onDelete = ReferenceOption.CASCADE)
-    val id_category = reference("id_category", Categories, onDelete = ReferenceOption.CASCADE)
+    val id_brand = reference("id_brand", BrandTable, onDelete = ReferenceOption.CASCADE)
+    val id_category = reference("id_category", CategoryTable, onDelete = ReferenceOption.CASCADE)
 }
 
 class BrandCategoryDAO(id: EntityID<Int>) : IntEntity(id) {
