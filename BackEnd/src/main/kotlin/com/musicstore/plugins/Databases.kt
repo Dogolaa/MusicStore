@@ -277,28 +277,6 @@ fun intializeData() {
             it[product_cost] = 18.0f
             it[product_creation_time] = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
         }
-
-        for (i in 1..40) {
-            ProductTable.insert {
-                it[id_brand] = 4
-                it[product_name] = "Produto de Exemplo $i"
-                it[product_main_photo] = "exemplo_foto_$i.jpeg"
-                it[product_short_desc] = "Descrição curta do Produto de Exemplo $i"
-                it[product_long_desc] =
-                    "Descrição longa e detalhada do Produto de Exemplo $i. Este produto é parte da série de exemplos para testes."
-                it[product_price] = 10.0f + i // Preço variando apenas para diferenciar
-                it[product_discount] = 5.0f + i % 5 // Desconto variando como exemplo
-                it[product_status] = if (i % 2 == 0) 1 else 0 // Alternando status entre 1 e 0
-                it[product_has_stocks] = 1
-                it[product_width] = 10.0f + i % 5 // Variando dimensões para diferenciação
-                it[product_lenght] = 15.0f + i % 3
-                it[product_height] = 5.0f + i % 2
-                it[product_cost] = 5.0f + i
-                it[product_creation_time] = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-            }
-        }
-
-
     }
 
     if (ProductCategoryTable.selectAll().empty()) {
