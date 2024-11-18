@@ -15,17 +15,12 @@ fun Route.productRoute(productRepository: ProductRepository) {
             val ascending = call.request.queryParameters["asc"]?.toBoolean() != false
             val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
 
-            val pageSize = 10
-            val offset = (page - 1) * pageSize
+            val paginatedProducts = productRepository.allProducts(
+                ascending = ascending,
+                page = page,
+            )
 
-            val products = productRepository.allProducts(ascending, offset, pageSize)
-
-            if (products.isEmpty()) {
-                call.respond(HttpStatusCode.NoContent, "No products found")
-                return@get
-            }
-
-            call.respond(products)
+            call.respond(paginatedProducts)
         }
 
         get("/{id}") {

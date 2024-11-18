@@ -277,7 +277,6 @@ fun intializeData() {
             it[product_cost] = 18.0f
             it[product_creation_time] = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
         }
-
     }
 
     if (ProductCategoryTable.selectAll().empty()) {
