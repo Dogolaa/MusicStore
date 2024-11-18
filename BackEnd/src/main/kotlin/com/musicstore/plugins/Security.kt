@@ -33,7 +33,7 @@ fun Application.configureSecurity(userRepository: UserRepository, roleRepository
                 if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
             }
             challenge { defaultScheme, realm ->
-                call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired")
+                call.respond(HttpStatusCode.Unauthorized, "Your JWT token is not valid or has expired")
             }
         }
     }
@@ -58,31 +58,8 @@ fun Application.configureSecurity(userRepository: UserRepository, roleRepository
                 call.respond(hashMapOf("token" to token))
 
             } else {
-                call.respondText("A senha está incorreta!", status = HttpStatusCode.BadRequest)
-            }
-        }
-
-        authenticate {
-            get("/hello") {
-                val principal = call.principal<JWTPrincipal>()
-                val username = principal!!.payload.getClaim("username").asString()
-                val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
-                call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
+                call.respondText("The password you entered is incorrect", status = HttpStatusCode.BadRequest)
             }
         }
     }
 }
-
-//fun Route.requireRole(requiredRole: String) {
-//    intercept(ApplicationCallPipeline.ApplicationPhase.Plugins) {
-//        val principal = call.principal<JWTPrincipal>()
-//        val userRole = principal!!.payload.getClaim("user_role").asString()
-//
-//        println(userRole)
-//        println(requiredRole)
-//        if (!requiredRole.equals(userRole, ignoreCase = true)) {
-//            call.respond(HttpStatusCode.Forbidden, "Access Denied")
-//            finish()
-//        }
-//    }
-//}

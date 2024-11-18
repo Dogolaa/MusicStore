@@ -2,10 +2,8 @@ package com.musicstore.routes
 
 import com.musicstore.model.Product
 import com.musicstore.model.request.UpdateProduct
-import com.musicstore.plugins.requireRole
 import com.musicstore.repositories.product.ProductRepository
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.auth.authenticate
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
@@ -13,24 +11,21 @@ import io.ktor.server.routing.*
 fun Route.productRoute(productRepository: ProductRepository) {
 
     route("/api/products") {
-        authenticate {
-            requireRole("ADMIN")
-            get {
-                val ascending = call.request.queryParameters["asc"]?.toBoolean() != false
-                val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
+        get {
+            val ascending = call.request.queryParameters["asc"]?.toBoolean() != false
+            val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
 
-                val pageSize = 10
-                val offset = (page - 1) * pageSize
+            val pageSize = 10
+            val offset = (page - 1) * pageSize
 
-                val products = productRepository.allProducts(ascending, offset, pageSize)
+            val products = productRepository.allProducts(ascending, offset, pageSize)
 
-                if (products.isEmpty()) {
-                    call.respond(HttpStatusCode.NoContent, "No products found")
-                    return@get
-                }
-
-                call.respond(products)
+            if (products.isEmpty()) {
+                call.respond(HttpStatusCode.NoContent, "No products found")
+                return@get
             }
+
+            call.respond(products)
         }
 
         get("/{id}") {
