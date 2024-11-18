@@ -5,39 +5,29 @@ import "./AddProduct.css";
 const AddProduct = () => {
   const [formData, setFormData] = useState({});
   const [brands, setBrands] = useState([]);
-  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch brands and categories on component mount
+  // Fetch brands on component mount
   useEffect(() => {
     fetch("http://localhost:8080/api/brands", {
-      headers: {
-        "api-key": "your-api-key",
-      },
+      headers: { "api-key": "your-api-key" },
     })
       .then((res) => res.json())
       .then((data) => setBrands(data))
       .catch((err) => console.error("Error fetching brands:", err));
-
-    fetch("http://localhost:8080/api/categories", {
-      headers: {
-        "api-key": "your-api-key",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setCategories(data))
-      .catch((err) => console.error("Error fetching categories:", err));
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Validate required fields
-    if (!formData.brand || !formData.category) {
-      alert("Please select a brand and a category.");
+
+    // Ensure required fields are filled
+    if (!formData.product_name || !formData.id_brand) {
+      alert("Please fill in all required fields.");
       return;
     }
 
@@ -47,11 +37,7 @@ const AddProduct = () => {
         "Content-Type": "application/json",
         "api-key": "your-api-key",
       },
-      body: JSON.stringify({
-        ...formData,
-        id_brand: formData.brand,
-        id_category: formData.category,
-      }),
+      body: JSON.stringify(formData),
     })
       .then(() => navigate("/"))
       .catch((err) => console.error("Error submitting product:", err));
@@ -66,6 +52,13 @@ const AddProduct = () => {
           name="product_name"
           placeholder="Product Name"
           onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="product_main_photo"
+          placeholder="Main Photo Filename"
+          onChange={handleChange}
         />
         <textarea
           name="product_short_desc"
@@ -74,12 +67,22 @@ const AddProduct = () => {
         ></textarea>
         <textarea
           name="product_long_desc"
-          placeholder="Full Description"
+          placeholder="Long Description"
           onChange={handleChange}
         ></textarea>
-
-        {/* Brand Dropdown */}
-        <select name="brand" onChange={handleChange}>
+        <input
+          type="number"
+          name="product_price"
+          placeholder="Price"
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="product_discount"
+          placeholder="Discount (%)"
+          onChange={handleChange}
+        />
+        <select name="id_brand" onChange={handleChange} required>
           <option value="">Select Brand</option>
           {brands.map((brand) => (
             <option key={brand.id} value={brand.id}>
@@ -87,27 +90,45 @@ const AddProduct = () => {
             </option>
           ))}
         </select>
-
-        {/* Category Dropdown */}
-        <select name="category" onChange={handleChange}>
-          <option value="">Select Category</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
+        <select
+          name="product_status"
+          onChange={handleChange}
+        >
+          <option value="1">Active</option>
+          <option value="0">Inactive</option>
         </select>
-
         <input
-          type="text"
-          name="product_main_photo"
-          placeholder="Photo Filename"
+          type="number"
+          name="product_has_stocks"
+          placeholder="Stock Status (1 for Yes, 0 for No)"
           onChange={handleChange}
         />
         <input
           type="number"
-          name="product_price"
-          placeholder="Price"
+          name="product_width"
+          placeholder="Width (cm)"
+          step="0.01"
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="product_lenght"
+          placeholder="Length (cm)"
+          step="0.01"
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="product_height"
+          placeholder="Height (cm)"
+          step="0.01"
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="product_cost"
+          placeholder="Cost"
+          step="0.01"
           onChange={handleChange}
         />
         <button type="submit">Add Product</button>
