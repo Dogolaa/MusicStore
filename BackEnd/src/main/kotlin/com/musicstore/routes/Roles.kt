@@ -5,7 +5,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
 
-fun Route.roleRoutes(roleRepository: RoleRepository) {
+fun Route.roleRoute(roleRepository: RoleRepository) {
     route("/api/roles") {
         get("/user/{id}") {
             val id = call.parameters["id"]

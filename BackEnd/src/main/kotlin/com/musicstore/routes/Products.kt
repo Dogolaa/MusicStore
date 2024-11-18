@@ -10,7 +10,7 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
 
-fun Route.productRoutes(productRepository: ProductRepository) {
+fun Route.productRoute(productRepository: ProductRepository) {
 
     route("/api/products") {
         authenticate {

@@ -8,7 +8,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-fun Route.userRoutes(userRepository: UserRepository) {
+fun Route.userRoute(userRepository: UserRepository) {
     route("/api/users") {
         get {
             val users = userRepository.allUsers()

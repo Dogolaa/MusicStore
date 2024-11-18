@@ -5,7 +5,7 @@ import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-fun Route.brandRoutes(brandRepository: BrandRepository) {
+fun Route.brandRoute(brandRepository: BrandRepository) {
     route("/api/brands") {
         get {
             val brands = brandRepository.allBrands()
