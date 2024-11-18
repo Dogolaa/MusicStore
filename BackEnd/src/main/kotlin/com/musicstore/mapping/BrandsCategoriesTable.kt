@@ -5,10 +5,11 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.ReferenceOption
 
 object BrandsCategories : IntIdTable("brands_categories") {
-    val id_brand = reference("id_brand", Brands)
-    val id_category = reference("id_category", Categories)
+    val id_brand = reference("id_brand", Brands, onDelete = ReferenceOption.CASCADE)
+    val id_category = reference("id_category", Categories, onDelete = ReferenceOption.CASCADE)
 }
 
 class BrandCategoryDAO(id: EntityID<Int>) : IntEntity(id) {
