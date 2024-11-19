@@ -8,16 +8,8 @@ import io.ktor.server.routing.*
 fun Route.roleRoute(roleRepository: RoleRepository) {
     route("/api/roles") {
         get("/user/{id}") {
-            val id = call.parameters["id"]
-            if (id == null) {
-                call.respond(HttpStatusCode.BadRequest, "Missing id")
-                return@get
-            }
-            val role = roleRepository.roleByUserId(id.toInt())
-            if (role == null) {
-                call.respond(HttpStatusCode.NotFound)
-                return@get
-            }
+            val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest)
+            val role = roleRepository.roleByUserId(id.toInt()) ?: return@get call.respond(HttpStatusCode.NotFound)
             call.respond(role)
         }
     }
