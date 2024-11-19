@@ -1,16 +1,25 @@
 package com.musicstore.repositories.brand
 
+import com.musicstore.mapping.BrandCategoryDAO
+import com.musicstore.mapping.BrandCategoryTable
 import com.musicstore.mapping.BrandDAO
 import com.musicstore.mapping.BrandTable
+import com.musicstore.mapping.CategoryTable
 import com.musicstore.mapping.daoToModel
 import com.musicstore.model.Brand
 import com.musicstore.model.request.UpdateBrand
 import com.musicstore.plugins.suspendTransaction
+import com.musicstore.repositories.category.CategoryRepository
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.exceptions.ExposedSQLException
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 
-class PostgresBrandRepository : BrandRepository {
+class PostgresBrandRepository(
+    private val categoryRepository: CategoryRepository
+) : BrandRepository {
     override suspend fun allBrands(): List<Brand> = suspendTransaction {
         BrandDAO.all().map(::daoToModel)
     }
@@ -46,5 +55,29 @@ class PostgresBrandRepository : BrandRepository {
                 throw e
             }
         }
+    }
+
+    override suspend fun addCategoryToBrand(brandId: Int, categoryId: Int): Unit = suspendTransaction {
+        runBlocking {
+            categoryRepository.categoryById(categoryId) ?: throw IllegalArgumentException("Category not found")
+            brandById(brandId) ?: throw IllegalArgumentException("Brand not found")
+        }
+
+        BrandCategoryDAO.new {
+            id_brand = EntityID(brandId, BrandTable)
+            id_category = EntityID(categoryId, CategoryTable)
+        }
+    }
+
+    override suspend fun removeCategoryFromBrand(brandId: Int, categoryId: Int): Unit = suspendTransaction {
+        runBlocking {
+            categoryRepository.categoryById(categoryId) ?: throw IllegalArgumentException("Category not found")
+            brandById(brandId) ?: throw IllegalArgumentException("Brand not found")
+        }
+
+        BrandCategoryDAO.find {
+            BrandCategoryTable.id_brand eq brandId and (BrandCategoryTable.id_category eq categoryId)
+        }.firstOrNull()?.delete()
+
     }
 }

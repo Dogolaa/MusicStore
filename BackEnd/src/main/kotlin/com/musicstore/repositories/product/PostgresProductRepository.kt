@@ -16,7 +16,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 
 class PostgresProductRepository(
-    private val BrandRepository: BrandRepository
+    private val brandRepository: BrandRepository
 ) : (ProductRepository) {
 
     override suspend fun allProducts(
@@ -72,7 +72,7 @@ class PostgresProductRepository(
 
     override suspend fun addProduct(product: Product): Unit = suspendTransaction {
         runBlocking {
-            BrandRepository.brandById(product.id_brand)
+            brandRepository.brandById(product.id_brand)
                 ?: throw Exception("Esta marca com ID ${product.id_brand} não existe")
         }
 
@@ -102,7 +102,7 @@ class PostgresProductRepository(
     override suspend fun updateProductById(id: Int, product: UpdateProduct): Unit = suspendTransaction {
         runBlocking {
             if (product.id_brand != null) {
-                BrandRepository.brandById(product.id_brand)
+                brandRepository.brandById(product.id_brand)
                     ?: throw Exception("Esta marca com ID ${product.id_brand} não existe")
             }
         }

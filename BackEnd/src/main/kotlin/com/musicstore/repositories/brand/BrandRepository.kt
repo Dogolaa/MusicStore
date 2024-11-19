@@ -9,4 +9,7 @@ interface BrandRepository {
     suspend fun brandById(id: Int): Brand?
     suspend fun updateBrandById(id: Int, brand: UpdateBrand)
     suspend fun removeBrandById(id: Int): Boolean
+
+    suspend fun addCategoryToBrand(brandId: Int, categoryId: Int)
+    suspend fun removeCategoryFromBrand(brandId: Int, categoryId: Int)
 }

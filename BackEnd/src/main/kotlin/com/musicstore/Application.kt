@@ -41,8 +41,8 @@ fun Application.module() {
     )
 
     configureSerialization(
-        PostgresBrandRepository(),
-        PostgresProductRepository(PostgresBrandRepository()),
+        PostgresBrandRepository(PostgresCategoryRepository()),
+        PostgresProductRepository(PostgresBrandRepository(PostgresCategoryRepository())),
         PostgresUserRepository(),
         PostgresRoleRepository(),
         PostgresCategoryRepository()

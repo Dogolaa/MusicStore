@@ -53,7 +53,22 @@ fun Route.brandRoute(brandRepository: BrandRepository) {
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.InternalServerError, "Error: ${e.message}")
             }
+        }
 
+        post("/{brandId}/categories/{categoryId}") {
+            val brandId = call.parameters["brandId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            val categoryId = call.parameters["categoryId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+
+            brandRepository.addCategoryToBrand(brandId.toInt(), categoryId.toInt())
+            call.respond(HttpStatusCode.OK)
+        }
+
+        delete("/{brandId}/categories/{categoryId}") {
+            val brandId = call.parameters["brandId"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+            val categoryId = call.parameters["categoryId"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+
+            brandRepository.removeCategoryFromBrand(brandId.toInt(), categoryId.toInt())
+            call.respond(HttpStatusCode.OK)
         }
     }
 }
