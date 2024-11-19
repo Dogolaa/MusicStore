@@ -4,9 +4,15 @@ import com.musicstore.model.Product
 import com.musicstore.model.request.UpdateProduct
 import com.musicstore.repositories.product.ProductRepository
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.content.PartData
+import io.ktor.http.content.forEachPart
 import io.ktor.server.request.receive
+import io.ktor.server.request.receiveMultipart
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
+import io.ktor.utils.io.readRemaining
+import kotlinx.io.readByteArray
+import java.io.File
 
 fun Route.productRoute(productRepository: ProductRepository) {
 
@@ -24,23 +30,45 @@ fun Route.productRoute(productRepository: ProductRepository) {
         }
 
         get("/{id}") {
-            val id = call.parameters["id"]
-            if (id == null) {
-                call.respond(HttpStatusCode.BadRequest, "Missing id")
-                return@get
-            }
-            val product = productRepository.productById(id.toInt())
-            if (product == null) {
-                call.respond(HttpStatusCode.NotFound)
-                return@get
-            }
+            val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest)
+            val product = productRepository.productById(id.toInt()) ?: return@get call.respond(HttpStatusCode.NotFound)
             call.respond(product)
         }
 
         post {
             try {
-                val product = call.receive<Product>()
-                productRepository.addProduct(product)
+                var productJson = ""
+                var fileName = ""
+
+                val multipartData = call.receiveMultipart()
+                multipartData.forEachPart { part ->
+                    when (part) {
+                        is PartData.FormItem -> {
+                            if (part.name == "product") {
+                                productJson = part.value
+                            }
+                        }
+
+                        is PartData.FileItem -> {
+                            if (part.name == "image") {
+                                val originalFileName = part.originalFileName ?: "unknown.jpg"
+                                val fileExtension = originalFileName.substringAfterLast(".", "jpg")
+                                fileName = "${System.currentTimeMillis()}-${java.util.UUID.randomUUID()}.$fileExtension"
+
+                                val fileBytes = part.provider().readRemaining().readByteArray()
+                                File("src/main/resources/images/products/$fileName").writeBytes(fileBytes)
+                            }
+                        }
+
+                        else -> {}
+                    }
+                    part.dispose()
+                }
+
+                val product = kotlinx.serialization.json.Json.decodeFromString(Product.serializer(), productJson)
+                val productWithImage = product.copy(product_main_photo = fileName)
+
+                productRepository.addProduct(productWithImage)
                 call.respond(HttpStatusCode.Created, "Produto adicionado com sucesso!")
             } catch (ex: Exception) {
                 call.respond(

@@ -3,79 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>BlueVelvet Music Store</title>
+    <title>Image Upload</title>
 </head>
 <body>
-<h1>BlueVelvet Music Store!</h1>
-<h2>Product Management</h2>
-<p>Welcome, Lucas</p>
-
-<table border="1" id="productsTable">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>ID Brand</th>
-        <th>Product Name</th>
-        <th>Product Main Photo</th>
-        <th>Short Description</th>
-        <th>Long Description</th>
-        <th>Price</th>
-        <th>Discount</th>
-        <th>Status</th>
-        <th>Has Stocks</th>
-        <th>Width</th>
-        <th>Length</th>
-        <th>Height</th>
-        <th>Cost</th>
-        <th>Creation Time</th>
-        <th>Update Time</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Rows will be dynamically added here -->
-    </tbody>
-</table>
+<h1>Upload de Imagem</h1>
+<form action="http://localhost:8080/api/upload" enctype="multipart/form-data" id="uploadForm" method="POST">
+    <label for="file">Escolha uma imagem:</label>
+    <input accept="image/*" id="file" name="file" required type="file">
+    <br><br>
+    <button type="submit">Enviar</button>
+</form>
+<p id="response"></p>
 
 <script>
-    // Function to fetch products and display them in the table
-    async function fetchProducts() {
-        try {
-            const response = await fetch('http://localhost:8080/api/products');
-            const products = await response.json();
+    document.getElementById('uploadForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
 
-            const tableBody = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
+        const formData = new FormData();
+        const fileInput = document.getElementById('file');
+        const file = fileInput.files[0];
 
-            products.forEach(product => {
-                const row = document.createElement('tr');
-
-                row.innerHTML = `
-                        <td>${product.id}</td>
-                        <td>${product.id_brand}</td>
-                        <td>${product.product_name}</td>
-                        <td><img src="http://localhost:8080/images/${product.product_main_photo}" width="70px"> </td>
-                        <td>${product.product_short_desc}</td>
-                        <td>${product.product_long_desc}</td>
-                        <td>${product.product_price}</td>
-                        <td>${product.product_discount}</td>
-                        <td>${product.product_status}</td>
-                        <td>${product.product_has_stocks}</td>
-                        <td>${product.product_width}</td>
-                        <td>${product.product_lenght}</td>
-                        <td>${product.product_height}</td>
-                        <td>${product.product_cost}</td>
-                        <td>${product.product_creation_time}</td>
-                        <td>${product.product_update_time}</td>
-                    `;
-
-                tableBody.appendChild(row);
-            });
-        } catch (error) {
-            console.error('Error fetching products:', error);
+        if (!file) {
+            alert('Selecione um arquivo para fazer o upload.');
+            return;
         }
-    }
 
-    // Fetch products when the page loads
-    window.onload = fetchProducts;
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('http://localhost:8080/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const result = await response.text();
+                document.getElementById('response').textContent = `Upload concluído: ${result}`;
+            } else {
+                document.getElementById('response').textContent = `Erro ao fazer upload: ${response.statusText}`;
+            }
+        } catch (error) {
+            document.getElementById('response').textContent = `Erro: ${error.message}`;
+        }
+    });
 </script>
 </body>
 </html>
