@@ -56,7 +56,7 @@ fun Route.productRoute(productRepository: ProductRepository) {
                                 fileName = "${System.currentTimeMillis()}-${java.util.UUID.randomUUID()}.$fileExtension"
 
                                 val fileBytes = part.provider().readRemaining().readByteArray()
-                                File("src/main/resources/images/products/$fileName").writeBytes(fileBytes)
+                                File("images/products/$fileName").writeBytes(fileBytes)
                             }
                         }
 

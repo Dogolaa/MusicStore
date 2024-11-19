@@ -3,47 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Image Upload</title>
+    <title>Enviar Produto</title>
 </head>
 <body>
-<h1>Upload de Imagem</h1>
-<form action="http://localhost:8080/api/upload" enctype="multipart/form-data" id="uploadForm" method="POST">
-    <label for="file">Escolha uma imagem:</label>
-    <input accept="image/*" id="file" name="file" required type="file">
-    <br><br>
+<h1>Cadastro de Produto</h1>
+<form id="productForm">
+    <label for="idBrand">ID da Marca:</label><br>
+    <input id="idBrand" name="idBrand" required type="number"><br><br>
+
+    <label for="productName">Nome do Produto:</label><br>
+    <input id="productName" name="productName" required type="text"><br><br>
+
+    <label for="shortDesc">Descrição Curta:</label><br>
+    <input id="shortDesc" name="shortDesc" required type="text"><br><br>
+
+    <label for="longDesc">Descrição Longa:</label><br>
+    <textarea id="longDesc" name="longDesc" required></textarea><br><br>
+
+    <label for="price">Preço:</label><br>
+    <input id="price" name="price" required step="0.01" type="number"><br><br>
+
+    <label for="discount">Desconto (%):</label><br>
+    <input id="discount" name="discount" required step="0.01" type="number"><br><br>
+
+    <label for="status">Status:</label><br>
+    <input id="status" name="status" required type="number"><br><br>
+
+    <label for="hasStocks">Tem Estoque (1/0):</label><br>
+    <input id="hasStocks" name="hasStocks" required type="number"><br><br>
+
+    <label for="width">Largura:</label><br>
+    <input id="width" name="width" required step="0.01" type="number"><br><br>
+
+    <label for="length">Comprimento:</label><br>
+    <input id="length" name="length" required step="0.01" type="number"><br><br>
+
+    <label for="height">Altura:</label><br>
+    <input id="height" name="height" required step="0.01" type="number"><br><br>
+
+    <label for="cost">Custo:</label><br>
+    <input id="cost" name="cost" required step="0.01" type="number"><br><br>
+
+    <label for="image">Imagem:</label><br>
+    <input accept="image/*" id="image" name="image" required type="file"><br><br>
+
     <button type="submit">Enviar</button>
 </form>
-<p id="response"></p>
 
 <script>
-    document.getElementById('uploadForm').addEventListener('submit', async function (event) {
-        event.preventDefault();
+    document.getElementById('productForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
 
         const formData = new FormData();
-        const fileInput = document.getElementById('file');
-        const file = fileInput.files[0];
+        formData.append('image', document.getElementById('image').files[0]);
 
-        if (!file) {
-            alert('Selecione um arquivo para fazer o upload.');
-            return;
-        }
+        const product = {
+            id_brand: document.getElementById('idBrand').value,
+            product_name: document.getElementById('productName').value,
+            product_short_desc: document.getElementById('shortDesc').value,
+            product_long_desc: document.getElementById('longDesc').value,
+            product_price: parseFloat(document.getElementById('price').value),
+            product_discount: parseFloat(document.getElementById('discount').value),
+            product_status: parseInt(document.getElementById('status').value),
+            product_has_stocks: parseInt(document.getElementById('hasStocks').value),
+            product_width: parseFloat(document.getElementById('width').value),
+            product_lenght: parseFloat(document.getElementById('length').value),
+            product_height: parseFloat(document.getElementById('height').value),
+            product_cost: parseFloat(document.getElementById('cost').value)
+        };
 
-        formData.append('file', file);
+        formData.append('product', JSON.stringify(product));
 
         try {
-            const response = await fetch('http://localhost:8080/api/upload', {
+            const response = await fetch('http://localhost:8080/api/products', {
                 method: 'POST',
-                body: formData,
+                body: formData
             });
 
             if (response.ok) {
-                const result = await response.text();
-                document.getElementById('response').textContent = `Upload concluído: ${result}`;
+                alert('Produto enviado com sucesso!');
             } else {
-                document.getElementById('response').textContent = `Erro ao fazer upload: ${response.statusText}`;
+                alert('Erro ao enviar produto. Verifique os dados e tente novamente.');
             }
         } catch (error) {
-            document.getElementById('response').textContent = `Erro: ${error.message}`;
+            console.error('Erro ao enviar o produto:', error);
+            alert('Erro na comunicação com o servidor.');
         }
     });
 </script>
