@@ -8,7 +8,7 @@ data class Product(
     val id: Int? = null,
     val id_brand: Int,
     val product_name: String,
-    val product_main_photo: String,
+    val product_main_photo: String? = null,
     val product_short_desc: String,
     val product_long_desc: String,
     val product_price: Float,

@@ -209,7 +209,7 @@ fun intializeData() {
         ProductTable.insert {
             it[id_brand] = 1
             it[product_name] = "Vinil - Dark Side of the Moon"
-            it[product_main_photo] = "vinil_ariana.jpeg"
+            it[product_main_photo] = "1732013987835-5b70cafb-61cb-43db-8ba1-b50061e4e2c6.png"
             it[product_short_desc] = "Clássico do Pink Floyd"
             it[product_long_desc] =
                 "Vinil remasterizado do álbum 'Dark Side of the Moon' do Pink Floyd, um dos álbuns mais icônicos da história da música."
@@ -227,7 +227,7 @@ fun intializeData() {
         ProductTable.insert {
             it[id_brand] = 2
             it[product_name] = "DVD - The Beatles Anthology"
-            it[product_main_photo] = "vinil_ariana.jpeg"
+            it[product_main_photo] = "1732013983394-57f785bb-b587-410c-9db8-85a89159e69e.png"
             it[product_short_desc] = "Documentário sobre os Beatles"
             it[product_long_desc] =
                 "Box com 5 DVDs que conta a história dos Beatles, com entrevistas, músicas e imagens raras."
@@ -245,7 +245,7 @@ fun intializeData() {
         ProductTable.insert {
             it[id_brand] = 3
             it[product_name] = "Vinil - Thriller (Michael Jackson)"
-            it[product_main_photo] = "vinil_ariana.jpeg"
+            it[product_main_photo] = "1732014000199-3cf5d4ce-f280-4dc9-b826-f9ead47c5086.png"
             it[product_short_desc] = "O álbum mais vendido de todos os tempos"
             it[product_long_desc] =
                 "Edição especial do vinil de 'Thriller', de Michael Jackson, com áudio remasterizado e encarte."
@@ -263,7 +263,7 @@ fun intializeData() {
         ProductTable.insert {
             it[id_brand] = 4
             it[product_name] = "DVD - Nirvana Live at Reading"
-            it[product_main_photo] = "vinil_ariana.jpeg"
+            it[product_main_photo] = "1732013978264-81bf89b8-24ab-42c0-a789-a6c8bf69d67d.png"
             it[product_short_desc] = "Show histórico do Nirvana"
             it[product_long_desc] =
                 "Gravação ao vivo do lendário show do Nirvana no festival de Reading, em 1992, com qualidade digital."

@@ -79,7 +79,7 @@ class PostgresProductRepository(
         ProductDAO.new {
             id_brand = EntityID(product.id_brand, BrandTable)
             product_name = product.product_name
-            product_main_photo = product.product_main_photo
+            product_main_photo = product.product_main_photo.toString()
             product_short_desc = product.product_short_desc
             product_long_desc = product.product_long_desc
             product_price = product.product_price

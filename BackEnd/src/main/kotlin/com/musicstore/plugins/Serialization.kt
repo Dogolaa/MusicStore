@@ -10,9 +10,11 @@ import com.musicstore.routes.roleRoute
 import com.musicstore.routes.userRoute
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
+import io.ktor.server.http.content.staticFiles
 import io.ktor.server.http.content.staticResources
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.routing.*
+import java.io.File
 
 fun Application.configureSerialization(
     brandRepository: PostgresBrandRepository,
@@ -25,8 +27,9 @@ fun Application.configureSerialization(
     }
 
     routing {
-        staticResources("/images", "images")
-        staticResources("/static", "static")
+        staticFiles("/images", File("images"))
+        staticResources("/static", "static", index = "index.html")
+
 
         brandRoute(brandRepository)
         productRoute(productRepository)
