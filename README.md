@@ -30,6 +30,7 @@
 ## 🖥️ How It Works
 
 1. **Frontend**:
+   
    ```
       cd Frontend
       npm install
