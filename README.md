@@ -30,8 +30,11 @@
 ## 🖥️ How It Works
 
 1. **Frontend**:
-   - Functionalities:
-   - Developer: 
+   ```
+      cd Frontend
+      npm install
+      npm run dev
+   ```
    <br>
 3. **Backend**: 
    - Functionalities:
