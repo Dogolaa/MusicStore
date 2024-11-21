@@ -11,8 +11,11 @@ import com.musicstore.plugins.suspendTransaction
 import com.musicstore.repositories.brand.BrandRepository
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 
 class PostgresProductRepository(
@@ -22,8 +25,14 @@ class PostgresProductRepository(
     override suspend fun allProducts(
         ascending: Boolean,
         page: Int,
-        pageSize: Int
+        pageSize: Int,
+        nameProduct: String?,
+        shortDesc: String?,
+        fullDesc: String?,
+        brandId: Int?,
+        categoryId: Int?
     ): ProductPaginatedResponse<Product> = suspendTransaction {
+        // TODO: Concertar o número total de elementos na resposta
         val totalElements = ProductDAO.all().count().toInt() // Total de produtos no banco
 
         // Calcular o número total de páginas
@@ -51,8 +60,18 @@ class PostgresProductRepository(
 
         // Ordenar e buscar os produtos para a página atual
         val sortOrder = if (ascending) SortOrder.ASC else SortOrder.DESC
+
+        var op: Op<Boolean> = Op.TRUE
+
+        nameProduct?.let { op = op and (ProductTable.product_name like "%$nameProduct%") }
+        shortDesc?.let { op = op and (ProductTable.product_short_desc like "%$shortDesc%") }
+        fullDesc?.let { op = op and (ProductTable.product_long_desc like "%$fullDesc%") }
+        brandId?.let { op = op and (ProductTable.id_brand eq it) }
+        // TODO: Implementar filtro por categoria
+
+
         val products = ProductDAO
-            .all()
+            .find { op }
             .orderBy(ProductTable.product_name to sortOrder)
             .limit(pageSize, offset = offset.toLong())
             .map(::daoToModel)

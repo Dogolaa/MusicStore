@@ -8,8 +8,13 @@ interface ProductRepository {
     suspend fun allProducts(
         ascending: Boolean = true,
         page: Int = 1,
-        pageSize: Int = 10
-    ): ProductPaginatedResponse<Product>
+        pageSize: Int = 10,
+        nameProduct: String? = null,
+        shortDesc: String? = null,
+        fullDesc: String? = null,
+        brandId: Int? = null,
+        categoryId: Int? = null
+        ): ProductPaginatedResponse<Product>
 
     suspend fun addProduct(product: Product)
     suspend fun productById(id: Int): Product?
