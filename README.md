@@ -38,8 +38,11 @@
    ```
    <br>
 3. **Backend**: 
-   - Functionalities:
-   - Developer:
+
+Tutorial detalhado em:
+MusicStore/BackEnd/README.md
+
+
    <br>
 
 <br>
