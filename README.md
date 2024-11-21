@@ -11,19 +11,23 @@
 
 ## 📂 Project Structure
 
-- **`backend/`**: Directory containing the backend implementation in Kotlin.
+- **`backend/`**: Directory containing the backend implementation in Kotlin and Ktor.
 - **`frontend/`**: Directory containing the frontend implementation in React+Vite.
 
 <br>
 
 ## 🛠️ Dependencies
 
-- JavaScript
-- NodeJS
-- Ktor
-- React
-- Axios
-- PostgreSQL
+- Frontend:
+  - JavaScript
+  - NodeJS
+  - React
+  - Axios
+
+- Backend:
+  - Kotlin with Ktor
+  - PostgreSQL
+  - Docker
 
 <br>
 
@@ -38,10 +42,14 @@
    ```
    <br>
 3. **Backend**: 
+    ```
+      cd Backend
+      docker compose up
+      ./gradlew build
+      ./gradlew run
+    ```
 
-Tutorial detalhado em:
-
-MusicStore/BackEnd/README.md
+    👉 [Acesse a documentação da API no Postman](https://musicstore-devs.postman.co/workspace/Musicstore~3fb4ab8c-67ba-4d5e-9d3a-781853b386b0/collection/25805729-cbcaa52c-017c-4f6f-b506-50bca36b3cff?action=share&creator=25805729)
 
 
    <br>
