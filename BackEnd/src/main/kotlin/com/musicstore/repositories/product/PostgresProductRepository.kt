@@ -1,9 +1,12 @@
 package com.musicstore.repositories.product
 
+import com.musicstore.mapping.BrandCategoryTable
 import com.musicstore.mapping.BrandTable
+import com.musicstore.mapping.CategoryTable
 import com.musicstore.mapping.ProductDAO
 import com.musicstore.mapping.ProductTable
 import com.musicstore.mapping.daoToModel
+import com.musicstore.mapping.mapRowToModel
 import com.musicstore.model.Product
 import com.musicstore.model.request.ProductPaginatedResponse
 import com.musicstore.model.request.UpdateProduct
@@ -11,12 +14,11 @@ import com.musicstore.plugins.suspendTransaction
 import com.musicstore.repositories.brand.BrandRepository
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
-import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.selectAll
 
 class PostgresProductRepository(
     private val brandRepository: BrandRepository
@@ -32,15 +34,27 @@ class PostgresProductRepository(
         brandId: Int?,
         categoryId: Int?
     ): ProductPaginatedResponse<Product> = suspendTransaction {
-        // TODO: Concertar o número total de elementos na resposta
-        val totalElements = ProductDAO.all().count().toInt() // Total de produtos no banco
+        val sortOrder = if (ascending) SortOrder.ASC else SortOrder.DESC
 
-        // Calcular o número total de páginas
-        val totalPages = if (totalElements % pageSize == 0) {
-            totalElements / pageSize
-        } else {
-            (totalElements / pageSize) + 1
-        }
+        val baseQuery = ProductTable
+            .innerJoin(BrandTable)
+            .let { joinQuery ->
+                if (categoryId != null) {
+                    joinQuery.innerJoin(BrandCategoryTable).innerJoin(CategoryTable)
+                } else {
+                    joinQuery
+                }
+            }
+            .selectAll()
+            .apply {
+                if (nameProduct != null) andWhere { ProductTable.product_name regexp "(?i).*${nameProduct}.*" }
+                if (shortDesc != null) andWhere { ProductTable.product_short_desc regexp "(?i).*%$shortDesc%" }
+                if (fullDesc != null) andWhere { ProductTable.product_long_desc regexp "(?i).*$fullDesc%" }
+                if (brandId != null) andWhere { ProductTable.id_brand eq brandId }
+                if (categoryId != null) andWhere { BrandCategoryTable.id_category eq categoryId }
+            }
+
+        val totalElements = baseQuery.count().toInt()
 
         if (totalElements == 0) {
             return@suspendTransaction ProductPaginatedResponse(
@@ -52,39 +66,22 @@ class PostgresProductRepository(
             )
         }
 
-        // Garantir que a página não seja menor que 1 e não ultrapasse o total de páginas
-        val currentPage = page.coerceIn(1, totalPages)
+        val totalPages = (totalElements + pageSize - 1) / pageSize
+        val page = page.coerceAtMost(totalPages)
+        val offset = (page - 1) * pageSize
+        val actualPageSize = pageSize.coerceAtMost(totalElements - offset)
 
-        // Calcular o offset (elementos a serem ignorados)
-        val offset = (currentPage - 1) * pageSize
-
-        // Ordenar e buscar os produtos para a página atual
-        val sortOrder = if (ascending) SortOrder.ASC else SortOrder.DESC
-
-        var op: Op<Boolean> = Op.TRUE
-
-        nameProduct?.let { op = op and (ProductTable.product_name like "%$nameProduct%") }
-        shortDesc?.let { op = op and (ProductTable.product_short_desc like "%$shortDesc%") }
-        fullDesc?.let { op = op and (ProductTable.product_long_desc like "%$fullDesc%") }
-        brandId?.let { op = op and (ProductTable.id_brand eq it) }
-        // TODO: Implementar filtro por categoria
-
-
-        val products = ProductDAO
-            .find { op }
+        val paginatedQuery = baseQuery
             .orderBy(ProductTable.product_name to sortOrder)
-            .limit(pageSize, offset = offset.toLong())
-            .map(::daoToModel)
+            .limit(actualPageSize, offset.toLong())
+            .map(::mapRowToModel)
 
-        val actualPageSize = products.size
-
-        // Retornar a resposta com os metadados e os produtos
         ProductPaginatedResponse(
             totalElements = totalElements,
             totalPages = totalPages,
-            page = currentPage,
+            page = page,
             pageSize = actualPageSize,
-            items = products
+            items = paginatedQuery
         )
     }
 
