@@ -88,7 +88,9 @@ const ProductList = () => {
     <div className="product-list">
       <Header />
       <h1>BlueVelvet Music Store</h1>
-
+      <p>Bem-vindo, {("username")} ({("role")})</p>
+      <button onClick={handleReset}>Logout</button>
+      
       <div className="controls">
         <button onClick={handleReset}>Reset Products to Initial State</button>
         <button onClick={() => navigate("/admin/products/add")}>Add Product</button>
