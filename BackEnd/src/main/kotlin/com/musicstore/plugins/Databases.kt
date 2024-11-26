@@ -277,6 +277,26 @@ fun intializeData() {
             it[product_cost] = 18.0f
             it[product_creation_time] = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
         }
+
+        for (i in 1..37) {
+            ProductTable.insert {
+                it[id_brand] = 3
+                it[product_name] = "Produto $i"
+                it[product_main_photo] = "Foto $i"
+                it[product_short_desc] = "Descrição curta $i"
+                it[product_long_desc] =
+                    "Descrição longa $i"
+                it[product_price] = 59.99f * i
+                it[product_discount] = 15.0f * i
+                it[product_status] = 1 * i
+                it[product_has_stocks] = 1 * i
+                it[product_width] = 19.0f * i
+                it[product_lenght] = 13.5f * i
+                it[product_height] = 1.5f * i
+                it[product_cost] = 18.0f * i
+                it[product_creation_time] = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+            }
+        }
     }
 
     if (ProductCategoryTable.selectAll().empty()) {

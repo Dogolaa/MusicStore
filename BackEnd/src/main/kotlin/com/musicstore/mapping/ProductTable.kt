@@ -5,6 +5,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
 object ProductTable : IntIdTable("products") {
@@ -63,3 +64,24 @@ fun daoToModel(dao: ProductDAO) = Product(
     product_creation_time = dao.product_creation_time,
     product_update_time = dao.product_update_time,
 )
+
+fun mapRowToModel(row: ResultRow): Product {
+    return Product(
+        id = row[ProductTable.id].value,
+        id_brand = row[ProductTable.id_brand].value,
+        product_name = row[ProductTable.product_name],
+        product_main_photo = row[ProductTable.product_main_photo],
+        product_short_desc = row[ProductTable.product_short_desc],
+        product_long_desc = row[ProductTable.product_long_desc],
+        product_price = row[ProductTable.product_price],
+        product_discount = row[ProductTable.product_discount],
+        product_status = row[ProductTable.product_status],
+        product_has_stocks = row[ProductTable.product_has_stocks],
+        product_width = row[ProductTable.product_width],
+        product_lenght = row[ProductTable.product_lenght],
+        product_height = row[ProductTable.product_height],
+        product_cost = row[ProductTable.product_cost],
+        product_creation_time = row[ProductTable.product_creation_time],
+        product_update_time = row[ProductTable.product_update_time]
+    )
+}

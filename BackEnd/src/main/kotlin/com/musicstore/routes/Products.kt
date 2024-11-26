@@ -20,10 +20,20 @@ fun Route.productRoute(productRepository: ProductRepository) {
         get {
             val ascending = call.request.queryParameters["asc"]?.toBoolean() != false
             val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
+            val nameProduct = call.request.queryParameters["nameProduct"]
+            val shortDesc = call.request.queryParameters["shortDesc"]
+            val fullDesc = call.request.queryParameters["fullDesc"]
+            val brandId = call.request.queryParameters["brand"]?.toIntOrNull()
+            val categoryId = call.request.queryParameters["category"]?.toIntOrNull()
 
             val paginatedProducts = productRepository.allProducts(
                 ascending = ascending,
                 page = page,
+                nameProduct = nameProduct,
+                shortDesc = shortDesc,
+                fullDesc = fullDesc,
+                brandId = brandId,
+                categoryId = categoryId
             )
 
             call.respond(paginatedProducts)
