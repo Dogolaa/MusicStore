@@ -1,7 +1,7 @@
 services:
   db:
-    image:
-      postgres
+    image: postgres
+    container_name: musicstore-db
     environment:
       POSTGRES_DB: musicstore
       POSTGRES_USER: postgres
