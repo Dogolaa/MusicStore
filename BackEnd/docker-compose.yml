@@ -1,5 +1,5 @@
 services:
-  db:
+  db_musicstore:
     image: postgres
     container_name: musicstore-db
     environment:

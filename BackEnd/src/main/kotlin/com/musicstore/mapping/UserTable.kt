@@ -5,11 +5,12 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.charLength
 
 object UserTable : IntIdTable("users") {
-    val user_email = varchar("user_email", 100).uniqueIndex()
-    val user_name = varchar("user_name", 100)
-    val user_last_name = varchar("user_last_name", 100)
+    val user_email = varchar("user_email", 128).uniqueIndex()
+    val user_name = varchar("user_name", 60).check { it.charLength() greaterEq 2 }
+    val user_last_name = varchar("user_last_name", 60).check { it.charLength() greaterEq 2 }
     val user_password = varchar("user_password", 80)
     val user_status = integer("user_status")
     val user_ph_content = varchar("user_ph_content", 100)
