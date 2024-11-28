@@ -8,6 +8,7 @@ import com.musicstore.mapping.ProductTable
 import com.musicstore.mapping.RoleTable
 import com.musicstore.mapping.UserRoleTable
 import com.musicstore.mapping.UserTable
+import io.ktor.server.application.*
 import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
@@ -21,7 +22,7 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun configureDatabases(config: ApplicationConfig) {
+fun Application.configureDatabases(config: ApplicationConfig) {
     val url = config.property("storage.jdbcURL").getString()
     val user = config.property("storage.user").getString()
     val password = config.property("storage.password").getString()

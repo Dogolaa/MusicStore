@@ -1,6 +1,7 @@
 package com.musicstore
 
 import com.musicstore.plugins.configureDatabases
+import com.musicstore.plugins.configureExceptionHandling
 import com.musicstore.plugins.configureSecurity
 import com.musicstore.plugins.configureSerialization
 import com.musicstore.repositories.brand.PostgresBrandRepository
@@ -47,6 +48,8 @@ fun Application.module() {
         PostgresRoleRepository(),
         PostgresCategoryRepository()
     )
+
+    configureExceptionHandling()
 
     configureDatabases(environment.config)
 }
