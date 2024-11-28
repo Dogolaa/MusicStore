@@ -5,6 +5,8 @@ import ProductList from './Screens/ProductList/ProductList';
 import AddProduct from './Screens/AddProduct/AddProduct';
 import EditProduct from './Screens/EditProduct/EditProduct';
 import ViewProduct from './Screens/ViewProduct/ViewProduct';
+import UserList from './Screens/Users/UserList/UserList'; 
+import AddUser from './Screens/Users/AddUser/AddUser';  
 
 const App = () => {
   return (
@@ -21,6 +23,10 @@ const App = () => {
         <Route path="/admin/products/add" element={<AddProduct />} />
         <Route path="/admin/products/edit/:id" element={<EditProduct />} />
         <Route path="/admin/products/view/:id" element={<ViewProduct />} />
+
+        {/* Gerenciamento de usuários */}
+        <Route path="/admin/users" element={<UserList />} />
+        <Route path="/admin/users/add" element={<AddUser />} />
       </Routes>
     </Router>
   );

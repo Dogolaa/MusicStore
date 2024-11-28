@@ -1,0 +1,119 @@
+/* Adicionar fundo e estrutura para a página */
+.user-list {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 60px; /* Ajuste a altura conforme a altura do header */
+  }
+  
+  /* Estilizando o título principal */
+  h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Estilizando a mensagem de erro e sucesso */
+  .message {
+    padding: 12px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  /* Estilizando o botão de adicionar novo usuário */
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 0 auto 20px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Estilizando a tabela */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+  }
+  
+  th {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  td {
+    background-color: #ffffff;
+  }
+  
+  /* Estilizando a linha quando não há dados */
+  td[colspan="5"] {
+    text-align: center;
+    color: #777;
+  }
+  
+  /* Estilizando as linhas de dados */
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Responsividade para telas menores */
+  @media (max-width: 768px) {
+    .user-list {
+      padding: 15px;
+    }
+  
+    h1 {
+      font-size: 20px;
+    }
+  
+    button {
+      width: 100%;
+      padding: 12px;
+    }
+  
+    table {
+      font-size: 14px;
+    }
+  
+    th,
+    td {
+      padding: 10px;
+    }
+  }
+  

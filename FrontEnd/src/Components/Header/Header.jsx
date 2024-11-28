@@ -30,7 +30,7 @@ const Header = () => {
         <Link to="/sales-report">Sales Report</Link>
         <Link to="/settings">Settings</Link>
         <Link to="/shipping">Shipping</Link>
-        <Link to="/users">Users</Link>
+        <Link to="/admin/users">Users</Link>
       </nav>
       {isOpen && (
         <div className="dropdown-menu">
