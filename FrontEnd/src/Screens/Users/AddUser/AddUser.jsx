@@ -13,6 +13,7 @@ const AddUser = () => {
     user_password: "",
     user_status: 1, // 1 para ativo, 0 para inativo
     user_ph_content: "",
+    user_role: "", // Agora é uma string, para um único papel
   });
 
   const [message, setMessage] = useState("");
@@ -20,10 +21,15 @@ const AddUser = () => {
   // Função para atualizar os dados do formulário
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? (checked ? 1 : 0) : value, // Lógica para checkbox
-    });
+    if (name === "user_role") {
+      // Atualiza o papel selecionado (agora único)
+      setFormData({ ...formData, user_role: value });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? (checked ? 1 : 0) : value, // Lógica para checkbox
+      });
+    }
   };
 
   // Função de envio do formulário
@@ -33,6 +39,11 @@ const AddUser = () => {
     // Validações
     if (!formData.user_email || !formData.user_name || !formData.user_last_name || !formData.user_password) {
       setMessage("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    if (!formData.user_role) {
+      setMessage("Por favor, selecione um papel.");
       return;
     }
 
@@ -54,6 +65,7 @@ const AddUser = () => {
       user_password: formData.user_password,
       user_status: formData.user_status,
       user_ph_content: formData.user_ph_content,
+      user_role: formData.user_role, // Envia o papel único
     };
 
     // Envio da requisição para a API
@@ -168,6 +180,18 @@ const AddUser = () => {
             onChange={handleChange}
             maxLength={80}
           />
+        </div>
+
+        <div className="form-group">
+          <label>Papel</label>
+          <select name="user_role" value={formData.user_role} onChange={handleChange} required>
+            <option value="">Selecione um papel</option>
+            <option value="Administrator">Administrador</option>
+            <option value="Sales Manager">Gerente de Vendas</option>
+            <option value="Editor">Editor</option>
+            <option value="Assistant">Assistente</option>
+            <option value="Shipping Manager">Gerente de Logística</option>
+          </select>
         </div>
 
         <div className="form-actions">
