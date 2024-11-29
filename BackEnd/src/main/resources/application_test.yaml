@@ -1,0 +1,16 @@
+ktor:
+  application:
+    modules:
+      - com.musicstore.ApplicationKt.module
+  deployment:
+    port: 8080
+storage:
+  driverClassName: "org.postgresql.Driver"
+  jdbcURL: "jdbc:postgresql://localhost:5434/musicstore_test"
+  user: "postgres"
+  password: "senha"
+jwt:
+  secret: "secret"
+  issuer: "http://localhost:8080/"
+  audience: "http://localhost:8080/hello"
+  realm: "ktor sample app"
