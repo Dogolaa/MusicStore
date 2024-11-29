@@ -13,7 +13,7 @@ fun Application.configureExceptionHandling() {
                 HttpStatusCode.NotFound,
                 ErrorResponse(
                     HttpStatusCode.NotFound.value,
-                    cause.message ?: "Bad Request",
+                    cause.message ?: "Not Found",
                     cause.details
                 )
             )
@@ -24,7 +24,7 @@ fun Application.configureExceptionHandling() {
                 HttpStatusCode.BadRequest,
                 ErrorResponse(
                     HttpStatusCode.BadRequest.value,
-                    cause.message ?: "Bad Request",
+                    cause.message ?: "Missing Header",
                     cause.details
                 )
             )
