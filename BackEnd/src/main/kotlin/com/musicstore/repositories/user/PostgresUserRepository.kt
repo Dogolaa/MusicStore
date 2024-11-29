@@ -6,6 +6,8 @@ import com.musicstore.mapping.daoToModel
 import com.musicstore.model.User
 import com.musicstore.plugins.hashPassword
 import com.musicstore.plugins.suspendTransaction
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class PostgresUserRepository : UserRepository {
     override suspend fun allUsers(): List<User> = suspendTransaction {
@@ -27,8 +29,12 @@ class PostgresUserRepository : UserRepository {
         }
     }
 
-    override suspend fun removeUser(id: Int): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun removeUser(id: Int): Boolean = suspendTransaction {
+        val rowsDeleted = UserTable.deleteWhere {
+            UserTable.id eq id
+        }
+        
+        rowsDeleted == 1
     }
 
     override suspend fun findByEmail(email: String): User? = suspendTransaction {

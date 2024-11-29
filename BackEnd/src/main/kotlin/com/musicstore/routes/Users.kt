@@ -1,9 +1,9 @@
 package com.musicstore.routes
 
+import com.musicstore.exceptions.NotFoundException
 import com.musicstore.model.User
 import com.musicstore.repositories.user.UserRepository
 import io.ktor.http.*
-import io.ktor.serialization.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -13,24 +13,48 @@ fun Route.userRoute(userRepository: UserRepository) {
         get {
             val users = userRepository.allUsers()
 
-            if (users.isEmpty()) {
-                call.respond(HttpStatusCode.NoContent, "No users found")
-                return@get
-            }
+            call.respond(
+                if (users.isEmpty()) HttpStatusCode.NoContent
+                else users
+            )
+        }
 
-            call.respond(users)
+        get("/{id}") {
+            val id = call.parameters["id"]
+
+            val user = userRepository.userById(id!!.toInt()) ?: throw NotFoundException(
+                "User not found",
+                "User with ID $id not found"
+            )
+
+            call.respond(user)
+        }
+
+        get("/email/{email}") {
+            val email = call.parameters["email"]
+
+            val user = userRepository.findByEmail(email!!) ?: throw NotFoundException(
+                "User not found",
+                "User with email $email not found"
+            )
+
+            call.respond(user)
         }
 
         post {
-            try {
-                val user = call.receive<User>()
-                userRepository.addUser(user)
-                call.respond(HttpStatusCode.Created)
-            } catch (_: IllegalStateException) {
-                call.respond(HttpStatusCode.BadRequest)
-            } catch (_: JsonConvertException) {
-                call.respond(HttpStatusCode.BadRequest)
-            }
+            val user = call.receive<User>()
+            userRepository.addUser(user)
+            call.respond(HttpStatusCode.Created)
         }
+
+        delete("/{id}") {
+            val id = call.parameters["id"]
+            val removed = userRepository.removeUser(id!!.toInt())
+
+            if (removed) call.respond(HttpStatusCode.OK)
+            else throw NotFoundException("User not found", "User with ID $id not found")
+        }
+
+
     }
 }

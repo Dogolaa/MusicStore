@@ -26,6 +26,7 @@ repositories {
 }
 
 dependencies {
+    implementation("io.ktor:ktor-server-status-pages:$ktor_version")
     implementation("io.ktor:ktor-server-auth-jvm")
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-host-common-jvm")
@@ -44,6 +45,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:$exposed_version")
     implementation("io.ktor:ktor-server-cors:$ktor_version")
     implementation("at.favre.lib:bcrypt:0.10.2")
+    implementation("io.ktor:ktor-server-status-pages-jvm:3.0.1")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }
