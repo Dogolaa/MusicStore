@@ -9,6 +9,8 @@ storage:
   jdbcURL: "jdbc:postgresql://localhost:5434/musicstore_test"
   user: "postgres"
   password: "senha"
+  initializeData: false
+
 jwt:
   secret: "secret"
   issuer: "http://localhost:8080/"
