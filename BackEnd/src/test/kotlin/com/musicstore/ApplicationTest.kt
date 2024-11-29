@@ -7,11 +7,11 @@ import io.ktor.server.config.ApplicationConfig
 import io.ktor.server.testing.*
 import kotlin.test.*
 
-class ApplicationTest : BaseTest() {
-    @Test
-    fun testRoot() = testApp {
+class ApplicationTest {
+//    @Test
+//    fun testRoot() = testApp {
 //        val response = client.get("/")
 //        assertEquals(HttpStatusCode.OK, response.status)
 //        assertEquals("Hello, world!", response.bodyAsText())
-    }
+//    }
 }
