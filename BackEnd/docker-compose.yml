@@ -8,3 +8,12 @@ services:
       POSTGRES_PASSWORD: senha
     ports:
       - "5432:5432"
+  db_musicstore_test:
+    image: postgres
+    container_name: musicstore-db-test
+    environment:
+      POSTGRES_DB: musicstore_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senha
+    ports:
+      - "5434:5432"

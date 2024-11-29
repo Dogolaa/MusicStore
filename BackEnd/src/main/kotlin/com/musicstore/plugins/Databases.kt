@@ -46,7 +46,12 @@ fun Application.configureDatabases(config: ApplicationConfig) {
             UserRoleTable,
         )
 
-        intializeData()
+        val initializeData = config.propertyOrNull("storage.initializeData")?.getString()?.toBoolean() != false
+
+        if (initializeData) {
+            intializeData()
+        }
+
 
     }
 }
