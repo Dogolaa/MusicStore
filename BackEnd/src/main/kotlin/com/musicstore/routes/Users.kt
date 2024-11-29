@@ -41,6 +41,20 @@ fun Route.userRoute(userRepository: UserRepository) {
             call.respond(user)
         }
 
+        put("/{id]") {
+            val id = call.parameters["id"]
+
+//            val user = userRepository.userById(id!!.toInt()) ?: throw NotFoundException(
+//                "User not found",
+//                "User with ID $id not found"
+//            )
+
+            val user = call.receive<User>()
+            userRepository.updateUserById(id!!.toInt())
+
+
+        }
+
         post {
             val user = call.receive<User>()
             userRepository.addUser(user)
