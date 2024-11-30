@@ -12,11 +12,11 @@ const UserList = () => {
     fetch("http://localhost:8080/api/users", {
       method: "GET",
       headers: {
-        "Authorization": "API_KEY_HERE", // Substitua com a sua chave de API
+        Authorization: "API_KEY_HERE", // Substitua com a sua chave de API
       },
     })
       .then((response) => response.json())
-      .then((data) => setUsers(data.items || []))
+      .then((data) => setUsers(data))
       .catch((err) => {
         setMessage("Erro ao carregar a lista de usuários: " + err.message);
       });
@@ -52,7 +52,9 @@ const UserList = () => {
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.user_email}</td>
-                <td>{user.user_name} {user.user_last_name}</td>
+                <td>
+                  {user.user_name} {user.user_last_name}
+                </td>
                 <td>{user.user_status === 1 ? "Ativo" : "Inativo"}</td>
                 <td>{user.user_ph_content}</td>
               </tr>
