@@ -1,7 +1,8 @@
 package com.musicstore.plugins
 
+import com.musicstore.exceptions.InsufficientPermissionException
 import com.musicstore.model.request.ErrorResponse
-import io.ktor.http.HttpStatusCode
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
@@ -13,8 +14,7 @@ fun Application.configureExceptionHandling() {
                 HttpStatusCode.NotFound,
                 ErrorResponse(
                     HttpStatusCode.NotFound.value,
-                    cause.message ?: "Not Found",
-                    cause.details
+                    cause.message ?: "Not Found"
                 )
             )
         }
@@ -24,19 +24,26 @@ fun Application.configureExceptionHandling() {
                 HttpStatusCode.BadRequest,
                 ErrorResponse(
                     HttpStatusCode.BadRequest.value,
-                    cause.message ?: "Missing Header",
-                    cause.details
+                    cause.message ?: "Missing Header"
                 )
             )
         }
 
+        exception<InsufficientPermissionException> { call, cause ->
+            call.respond(
+                HttpStatusCode.Forbidden,
+                ErrorResponse(
+                    HttpStatusCode.Forbidden.value,
+                    cause.message ?: "Forbidden",
+                )
+            )
+        }
         exception<Throwable> { call, cause ->
             call.respond(
                 HttpStatusCode.InternalServerError,
                 ErrorResponse(
                     HttpStatusCode.InternalServerError.value,
-                    cause.message ?: "Internal Server Error",
-                    null
+                    cause.message ?: "Internal Server Error"
                 )
             )
         }

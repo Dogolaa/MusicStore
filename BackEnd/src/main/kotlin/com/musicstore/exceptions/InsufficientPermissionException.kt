@@ -1,5 +1,5 @@
 package com.musicstore.exceptions
 
-class NotFoundException(
+class InsufficientPermissionException(
     message: String,
 ) : RuntimeException(message)

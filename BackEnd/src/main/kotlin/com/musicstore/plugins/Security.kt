@@ -19,8 +19,8 @@ fun Application.configureSecurity(userRepository: UserRepository, roleRepository
     val jwtIssuer = environment.config.property("jwt.issuer").getString()
     val jwtRealm = environment.config.property("jwt.realm").getString()
     val jwtSecret = environment.config.property("jwt.secret").getString()
-    authentication {
-        jwt {
+    install(Authentication) {
+        jwt("auth-jwt") {
             realm = jwtRealm
             verifier(
                 JWT

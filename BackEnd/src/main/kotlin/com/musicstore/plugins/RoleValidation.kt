@@ -1,41 +1,28 @@
 package com.musicstore.plugins
 
-import io.ktor.http.HttpStatusCode
+import com.musicstore.exceptions.InsufficientPermissionException
 import io.ktor.server.application.*
-import io.ktor.server.auth.AuthenticationChecked
+import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import io.ktor.server.auth.principal
-import io.ktor.server.response.respondText
-import io.ktor.server.routing.Route
 
-// Para adicionar a roleValidation, use este escopo por fora da requisição:
-//authenticate {
-//    requireRole("ADMIN")
-//    get(...){}
-//}
+val RoleValidation = createRouteScopedPlugin(
+    name = "RoleValidationPlugin",
+    createConfiguration = ::PluginConfiguration
+) {
+    val roles = pluginConfig.roles
+    println("ROLES: $roles")
 
-fun Route.requireRole(requiredRole: String) {
-    install(createRouteScopedPlugin(name = "RoleValidation") {
-        on(AuthenticationChecked) { call ->
-            val principal = call.principal<JWTPrincipal>()
+    on(AuthenticationChecked) { call ->
+        val token = call.principal<JWTPrincipal>()
+        val userRole = token!!.payload.getClaim("user_role").asList(String::class.java)
+        println("ROLE IN TOKEN: $userRole")
 
-            if (principal == null) {
-                call.respondText(
-                    "A valid JWT token must be provided in the Authorization header",
-                    status = HttpStatusCode.BadRequest
-                )
-                return@on
-            }
+        if (!userRole.any { it in roles })
+            throw InsufficientPermissionException("You don't have the right role for this method. Your role: $userRole. Required role: $roles")
+    }
 
-            val userRole = principal.payload.getClaim("user_role").asList(String::class.java)
+}
 
-            if (!userRole.any { it.equals(requiredRole, ignoreCase = true) }) {
-                call.respondText(
-                    "According to your JWT token, you don't have the required role",
-                    status = HttpStatusCode.Forbidden
-                )
-                return@on
-            }
-        }
-    })
+class PluginConfiguration {
+    lateinit var roles: List<String>
 }
