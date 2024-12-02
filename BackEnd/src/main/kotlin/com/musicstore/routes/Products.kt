@@ -18,9 +18,8 @@ import java.io.File
 fun Route.productRoute(productRepository: ProductRepository) {
     authenticate("auth-jwt") {
         route("/api/products") {
-            // TODO: Utilizar enums
             install(RoleValidation) {
-                roles = listOf("SELLER", "ADMIN")
+                roles = listOf("SELLER")
             }
 
             get {

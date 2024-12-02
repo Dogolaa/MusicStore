@@ -1,6 +1,8 @@
 package com.musicstore.plugins
 
 import com.musicstore.exceptions.InsufficientPermissionException
+import com.musicstore.exceptions.InvalidPasswordException
+import com.musicstore.exceptions.TokenInvalidOrExpiredException
 import com.musicstore.model.request.ErrorResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -38,6 +40,27 @@ fun Application.configureExceptionHandling() {
                 )
             )
         }
+
+        exception<TokenInvalidOrExpiredException> { call, cause ->
+            call.respond(
+                HttpStatusCode.Unauthorized,
+                ErrorResponse(
+                    HttpStatusCode.Unauthorized.value,
+                    cause.message ?: "Unauthorized",
+                )
+            )
+        }
+
+        exception<InvalidPasswordException> { call, cause ->
+            call.respond(
+                HttpStatusCode.Unauthorized,
+                ErrorResponse(
+                    HttpStatusCode.Unauthorized.value,
+                    cause.message ?: "Unauthorized",
+                )
+            )
+        }
+
         exception<Throwable> { call, cause ->
             call.respond(
                 HttpStatusCode.InternalServerError,

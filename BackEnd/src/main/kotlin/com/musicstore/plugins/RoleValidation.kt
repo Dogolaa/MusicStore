@@ -10,15 +10,14 @@ val RoleValidation = createRouteScopedPlugin(
     createConfiguration = ::PluginConfiguration
 ) {
     val roles = pluginConfig.roles
-    println("ROLES: $roles")
-
+    
     on(AuthenticationChecked) { call ->
         val token = call.principal<JWTPrincipal>()
         val userRole = token!!.payload.getClaim("user_role").asList(String::class.java)
-        println("ROLE IN TOKEN: $userRole")
 
         if (!userRole.any { it in roles })
-            throw InsufficientPermissionException("You don't have the right role for this method. Your role: $userRole. Required role: $roles")
+            if (!userRole.any { it == "ADMIN" })
+                throw InsufficientPermissionException("You don't have the right role for this method. Your role: $userRole. Required role: $roles")
     }
 
 }

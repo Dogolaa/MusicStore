@@ -2,10 +2,11 @@ package com.musicstore.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.musicstore.exceptions.InvalidPasswordException
+import com.musicstore.exceptions.TokenInvalidOrExpiredException
 import com.musicstore.model.request.UserLogin
 import com.musicstore.repositories.role.RoleRepository
 import com.musicstore.repositories.user.UserRepository
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -32,8 +33,8 @@ fun Application.configureSecurity(userRepository: UserRepository, roleRepository
             validate { credential ->
                 if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
             }
-            challenge { defaultScheme, realm ->
-                call.respond(HttpStatusCode.Unauthorized, "Your JWT token is not valid or has expired")
+            challenge { _, _ ->
+                throw TokenInvalidOrExpiredException("Your JWT token is not valid or has expired")
             }
         }
     }
@@ -58,7 +59,7 @@ fun Application.configureSecurity(userRepository: UserRepository, roleRepository
                 call.respond(hashMapOf("token" to token))
 
             } else {
-                call.respondText("The password you entered is incorrect", status = HttpStatusCode.BadRequest)
+                throw InvalidPasswordException("The password you entered is incorrect")
             }
         }
     }
