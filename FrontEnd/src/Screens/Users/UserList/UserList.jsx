@@ -6,28 +6,54 @@ import "./UserList.css";
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
-  const fetchUsers = () => {
-    fetch("http://localhost:8080/api/users", {
+  const fetchUsers = (page = 1) => {
+    fetch(`http://localhost:8080/api/users?page=${page}&limit=5`, {
       method: "GET",
       headers: {
-        "Authorization": "API_KEY_HERE", // Substitua com a sua chave de API
+        "Authorization": "API_KEY_HERE", // Substitua pela chave correta
       },
     })
       .then((response) => response.json())
-      .then((data) => setUsers(data.items || []))
+      .then((data) => {
+        setUsers(data.items || []);
+        setTotalPages(data.totalPages || 1); // Supondo que a API forneça totalPages
+      })
       .catch((err) => {
         setMessage("Erro ao carregar a lista de usuários: " + err.message);
       });
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers(currentPage);
+  }, [currentPage]);
 
   const handleAddUser = () => {
     navigate("/admin/users/add");
+  };
+
+  const handleRemoveUser = (userId) => {
+    const confirmRemove = window.confirm(
+      "Tem certeza de que deseja remover este usuário? Esta ação não pode ser desfeita."
+    );
+    if (confirmRemove) {
+      fetch(`http://localhost:8080/api/users/${userId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "API_KEY_HERE", // Substitua pela chave correta
+        },
+      })
+        .then(() => {
+          fetchUsers(currentPage); // Atualiza a lista após remoção
+          alert("Usuário removido com sucesso!");
+        })
+        .catch((err) => {
+          setMessage("Erro ao remover o usuário: " + err.message);
+        });
+    }
   };
 
   return (
@@ -40,10 +66,10 @@ const UserList = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>E-mail</th>
             <th>Nome</th>
+            <th>Função</th>
             <th>Status</th>
-            <th>Conteúdo da Foto</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -51,10 +77,14 @@ const UserList = () => {
             users.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
-                <td>{user.user_email}</td>
                 <td>{user.user_name} {user.user_last_name}</td>
+                <td>{user.user_role || "Sem função"}</td> {/* Exibe função */}
                 <td>{user.user_status === 1 ? "Ativo" : "Inativo"}</td>
-                <td>{user.user_ph_content}</td>
+                <td>
+                  <button onClick={() => handleRemoveUser(user.id)}>
+                    Remover
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
@@ -64,6 +94,21 @@ const UserList = () => {
           )}
         </tbody>
       </table>
+      <div className="pagination">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
+          Anterior
+        </button>
+        <span>{`Página ${currentPage} de ${totalPages}`}</span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+        >
+          Próxima
+        </button>
+      </div>
     </div>
   );
 };
