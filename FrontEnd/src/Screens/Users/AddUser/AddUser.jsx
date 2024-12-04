@@ -16,6 +16,8 @@ const AddUser = () => {
     user_role: "", // Agora é uma string, para um único papel
   });
 
+  const [imageData, setImageData] = useState(null); // Estado para armazenar dados da imagem
+  const [previewUrl, setPreviewUrl] = useState(""); // Estado para armazenar a URL da pré-visualização
   const [message, setMessage] = useState("");
 
   // Função para atualizar os dados do formulário
@@ -30,6 +32,32 @@ const AddUser = () => {
         [name]: type === "checkbox" ? (checked ? 1 : 0) : value, // Lógica para checkbox
       });
     }
+  };
+
+  // Função para lidar com o upload de imagem
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    // Verifica o tipo de arquivo
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (!allowedTypes.includes(file.type)) {
+      setMessage("Formato de arquivo não suportado. Use .jpg, .jpeg ou .png.");
+      return;
+    }
+
+    // Verifica o tamanho do arquivo
+    const maxSize = 1 * 1024 * 1024; // 1MB
+    if (file.size > maxSize) {
+      setMessage("O arquivo deve ter no máximo 1MB.");
+      return;
+    }
+
+    // Cria uma URL para pré-visualização
+    const fileUrl = URL.createObjectURL(file);
+    setPreviewUrl(fileUrl);
+    setImageData(file); // Armazena o arquivo no estado
   };
 
   // Função de envio do formulário
@@ -58,24 +86,25 @@ const AddUser = () => {
       return;
     }
 
-    const userPayload = {
-      user_email: formData.user_email,
-      user_name: formData.user_name,
-      user_last_name: formData.user_last_name,
-      user_password: formData.user_password,
-      user_status: formData.user_status,
-      user_ph_content: formData.user_ph_content,
-      user_role: formData.user_role, // Envia o papel único
-    };
+    const userPayload = new FormData(); // Usar FormData para incluir imagem
+    userPayload.append("user_email", formData.user_email);
+    userPayload.append("user_name", formData.user_name);
+    userPayload.append("user_last_name", formData.user_last_name);
+    userPayload.append("user_password", formData.user_password);
+    userPayload.append("user_status", formData.user_status);
+    userPayload.append("user_ph_content", formData.user_ph_content);
+    userPayload.append("user_role", formData.user_role);
+    if (imageData) {
+      userPayload.append("user_image", imageData); // Adiciona a imagem ao payload
+    }
 
     // Envio da requisição para a API
     fetch("http://localhost:8080/api/users", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         "Authorization": "API_KEY_HERE", // Substitua com a sua chave de API
       },
-      body: JSON.stringify(userPayload),
+      body: userPayload,
     })
       .then((response) => {
         if (!response.ok) {
@@ -84,7 +113,6 @@ const AddUser = () => {
         return response.json(); // Processa a resposta como JSON
       })
       .then((data) => {
-        // Verifica se a resposta contém sucesso
         if (data && data.success) {
           setMessage("Os dados do usuário foram salvos com sucesso.");
           setTimeout(() => navigate("/admin/users"), 2000); // Redireciona para lista após sucesso
@@ -93,7 +121,7 @@ const AddUser = () => {
         }
       })
       .catch((err) => {
-        setMessage("Erro ao conectar ao servidor: " + err.message); // Mensagem de erro de conexão
+        setMessage("Erro ao conectar ao servidor: " + err.message);
       });
   };
 
@@ -166,12 +194,12 @@ const AddUser = () => {
           <input
             type="checkbox"
             name="user_status"
-            checked={formData.user_status === 1} // Marca como habilitado se status for 1
+            checked={formData.user_status === 1}
             onChange={handleChange}
           />
         </div>
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>Conteúdo da Foto (opcional)</label>
           <input
             type="text"
@@ -180,7 +208,7 @@ const AddUser = () => {
             onChange={handleChange}
             maxLength={80}
           />
-        </div>
+        </div> */}
 
         <div className="form-group">
           <label>Papel</label>
@@ -193,6 +221,25 @@ const AddUser = () => {
             <option value="Shipping Manager">Gerente de Logística</option>
           </select>
         </div>
+
+{/* Upload de Imagem */}
+<div className="form-group image-upload">
+  <label htmlFor="imageUpload" className="custom-upload-button">Selecione uma Imagem</label>
+  <input
+    id="imageUpload"
+    type="file"
+    accept="image/png, image/jpeg"
+    onChange={handleImageUpload}
+  />
+  <div className="image-preview">
+    {previewUrl ? (
+      <img src={previewUrl} alt="Pré-visualização" />
+    ) : (
+      <span>Nenhuma imagem selecionada</span>
+    )}
+  </div>
+</div>
+
 
         <div className="form-actions">
           <button type="submit">Salvar</button>
