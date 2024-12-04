@@ -5,12 +5,14 @@ import "./UserList.css";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
+  const [filters, setFilters] = useState({ name: "", role: "", status: "" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  // Função para buscar todos os usuários (sem paginação)
+  // Função para buscar a lista filtrada de usuários
   const fetchUsers = () => {
-    fetch("http://localhost:8080/api/users", {
+    const queryParams = new URLSearchParams(filters).toString();
+    fetch(`http://localhost:8080/api/admin/users?${queryParams}`, {
       method: "GET",
       headers: {
         "Authorization": "API_KEY_HERE", // Substitua pela chave correta
@@ -18,23 +20,22 @@ const UserList = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Erro na requisição: ' + response.statusText);
+          throw new Error("Erro na requisição: " + response.statusText);
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data); // Verifique os dados retornados
-        setUsers(data || []); // Defina diretamente a lista de usuários
+        setUsers(data || []);
       })
       .catch((err) => {
         setMessage("Erro ao carregar a lista de usuários: " + err.message);
       });
   };
 
-  // Chama a função para buscar os usuários logo após a montagem do componente
+  // Atualiza a lista ao montar o componente ou mudar filtros
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [filters]);
 
   // Função para adicionar um novo usuário
   const handleAddUser = () => {
@@ -54,7 +55,7 @@ const UserList = () => {
         },
       })
         .then(() => {
-          fetchUsers(); // Atualiza a lista após remoção
+          fetchUsers();
           alert("Usuário removido com sucesso!");
         })
         .catch((err) => {
@@ -63,18 +64,53 @@ const UserList = () => {
     }
   };
 
+  // Atualiza filtros
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="user-list">
       <Header />
       <h1>Lista de Usuários</h1>
       {message && <p className="message">{message}</p>}
+
+      {/* Barra de Filtros */}
+      <div className="filters">
+        <input
+          type="text"
+          name="name"
+          placeholder="Buscar por Nome"
+          value={filters.name}
+          onChange={handleFilterChange}
+        />
+        <select name="role" value={filters.role} onChange={handleFilterChange}>
+          <option value="">Todas as Funções</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Supervisor">Supervisor</option>
+        </select>
+        <select name="status" value={filters.status} onChange={handleFilterChange}>
+          <option value="">Todos os Status</option>
+          <option value="Ativo">Ativo</option>
+          <option value="Inativo">Inativo</option>
+        </select>
+        <button onClick={fetchUsers}>Aplicar Filtros</button>
+      </div>
+
       <button onClick={handleAddUser}>Adicionar Novo Usuário</button>
+
       <table>
         <thead>
           <tr>
+            <th>Foto</th>
             <th>ID</th>
             <th>Nome</th>
             <th>Email</th>
+            <th>Função</th>
             <th>Status</th>
             <th>Ações</th>
           </tr>
@@ -83,20 +119,26 @@ const UserList = () => {
           {users.length > 0 ? (
             users.map((user) => (
               <tr key={user.id}>
+                <td>
+                  {user.profilePhoto ? (
+                    <img src={user.profilePhoto} alt="Foto de perfil" className="profile-thumbnail" />
+                  ) : (
+                    <div className="profile-placeholder">👤</div>
+                  )}
+                </td>
                 <td>{user.id}</td>
                 <td>{user.user_name} {user.user_last_name}</td>
                 <td>{user.user_email}</td>
+                <td>{user.user_role}</td>
                 <td>{user.user_status === 1 ? "Ativo" : "Inativo"}</td>
                 <td>
-                  <button onClick={() => handleRemoveUser(user.id)}>
-                    Remover
-                  </button>
+                  <button onClick={() => handleRemoveUser(user.id)}>Remover</button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="5">Nenhum usuário encontrado</td>
+              <td colSpan="7">Nenhum usuário encontrado</td>
             </tr>
           )}
         </tbody>
