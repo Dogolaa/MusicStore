@@ -150,4 +150,59 @@
       margin-bottom: 10px;
     }
   }
-  
+
+/* Estilizando o campo de upload de imagem */
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.image-upload label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.image-upload input[type="file"] {
+  display: none; /* Ocultar o input padrão */
+}
+
+.image-upload .custom-upload-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.image-upload .custom-upload-button:hover {
+  background-color: #0056b3;
+}
+
+/* Pré-visualização da imagem */
+.image-preview {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-preview img {
+  max-width: 150px;
+  max-height: 150px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.image-preview span {
+  font-size: 14px;
+  color: #666;
+}
