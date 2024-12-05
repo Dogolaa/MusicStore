@@ -33,6 +33,12 @@ class PostgresUserRepository : UserRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun changeUserAccess(user: User): Unit = suspendTransaction {
+        UserDAO.findByIdAndUpdate(user.id!!) { userToUpdate ->
+            userToUpdate.user_status = if (userToUpdate.user_status == 1) 0 else 1
+        }
+    }
+
     override suspend fun removeUser(id: Int): Boolean = suspendTransaction {
         val rowsDeleted = UserTable.deleteWhere {
             UserTable.id eq id

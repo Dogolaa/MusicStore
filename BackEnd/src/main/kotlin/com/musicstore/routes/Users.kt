@@ -62,6 +62,20 @@ fun Route.userRoute(userRepository: UserRepository) {
     }
 
     route("/api/admin/users") {
+        put("/{id}/access") {
+            val id = call.parameters["id"]
+
+            val user = userRepository.userById(id!!.toInt()) ?: throw NotFoundException(
+                "User with ID $id not found"
+            )
+
+            userRepository.changeUserAccess(user)
+
+            val updatedUser = userRepository.userById(id.toInt())
+
+            call.respond(updatedUser as User)
+        }
+
         delete("/{id}") {
             val id = call.parameters["id"]
             val removed = userRepository.removeUser(id!!.toInt())
