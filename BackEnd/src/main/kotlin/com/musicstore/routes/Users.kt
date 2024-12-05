@@ -59,7 +59,9 @@ fun Route.userRoute(userRepository: UserRepository) {
             userRepository.addUser(user)
             call.respond(HttpStatusCode.Created)
         }
+    }
 
+    route("/api/admin/users") {
         delete("/{id}") {
             val id = call.parameters["id"]
             val removed = userRepository.removeUser(id!!.toInt())
@@ -67,7 +69,5 @@ fun Route.userRoute(userRepository: UserRepository) {
             if (removed) call.respond(HttpStatusCode.OK)
             else throw NotFoundException("User with ID $id not found")
         }
-
-
     }
 }
