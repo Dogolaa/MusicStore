@@ -10,15 +10,6 @@ import io.ktor.server.routing.*
 
 fun Route.userRoute(userRepository: UserRepository) {
     route("/api/users") {
-        get {
-            val users = userRepository.allUsers()
-
-            call.respond(
-                if (users.isEmpty()) HttpStatusCode.NoContent
-                else users
-            )
-        }
-
         get("/email/{email}") {
             val email = call.parameters["email"]
 
@@ -52,6 +43,16 @@ fun Route.userRoute(userRepository: UserRepository) {
     }
 
     route("/api/admin/users") {
+        get {
+            val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
+            val size = call.request.queryParameters["size"]?.toIntOrNull()
+            val admin = call.request.queryParameters["admin"]?.toBooleanStrictOrNull()
+
+            val users = userRepository.allUsers(page, size, admin)
+
+            call.respond(users)
+        }
+
         get("/{id}") {
             val id = call.parameters["id"]
 
@@ -61,7 +62,7 @@ fun Route.userRoute(userRepository: UserRepository) {
 
             call.respond(user)
         }
-        
+
         put("/{id}/access") {
             val id = call.parameters["id"]
 

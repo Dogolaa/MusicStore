@@ -5,6 +5,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.charLength
 
 object UserTable : IntIdTable("users") {
@@ -36,3 +37,15 @@ fun daoToModel(dao: UserDAO) = User(
     user_status = dao.user_status,
     user_ph_content = dao.user_ph_content
 )
+
+fun mapRowToUser(row: ResultRow): User {
+    return User(
+        id = row[UserTable.id].value,
+        user_email = row[UserTable.user_email],
+        user_name = row[UserTable.user_name],
+        user_last_name = row[UserTable.user_last_name],
+        user_password = row[UserTable.user_password],
+        user_status = row[UserTable.user_status],
+        user_ph_content = row[UserTable.user_ph_content]
+    )
+}

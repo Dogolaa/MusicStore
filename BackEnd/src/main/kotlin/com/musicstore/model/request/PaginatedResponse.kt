@@ -3,7 +3,7 @@ package com.musicstore.model.request
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ProductPaginatedResponse<T>(
+data class PaginatedResponse<T>(
     val totalElements: Int,
     val totalPages: Int,
     val page: Int,

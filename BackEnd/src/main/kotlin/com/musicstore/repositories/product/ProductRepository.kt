@@ -1,7 +1,7 @@
 package com.musicstore.repositories.product
 
 import com.musicstore.model.Product
-import com.musicstore.model.request.ProductPaginatedResponse
+import com.musicstore.model.request.PaginatedResponse
 import com.musicstore.model.request.UpdateProduct
 
 interface ProductRepository {
@@ -14,7 +14,7 @@ interface ProductRepository {
         fullDesc: String? = null,
         brandId: Int? = null,
         categoryId: Int? = null
-        ): ProductPaginatedResponse<Product>
+    ): PaginatedResponse<Product>
 
     suspend fun addProduct(product: Product)
     suspend fun productById(id: Int): Product?

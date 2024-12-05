@@ -65,7 +65,7 @@ fun daoToModel(dao: ProductDAO) = Product(
     product_update_time = dao.product_update_time,
 )
 
-fun mapRowToModel(row: ResultRow): Product {
+fun mapRowToProduct(row: ResultRow): Product {
     return Product(
         id = row[ProductTable.id].value,
         id_brand = row[ProductTable.id_brand].value,

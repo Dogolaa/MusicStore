@@ -6,9 +6,9 @@ import com.musicstore.mapping.CategoryTable
 import com.musicstore.mapping.ProductDAO
 import com.musicstore.mapping.ProductTable
 import com.musicstore.mapping.daoToModel
-import com.musicstore.mapping.mapRowToModel
+import com.musicstore.mapping.mapRowToProduct
 import com.musicstore.model.Product
-import com.musicstore.model.request.ProductPaginatedResponse
+import com.musicstore.model.request.PaginatedResponse
 import com.musicstore.model.request.UpdateProduct
 import com.musicstore.plugins.suspendTransaction
 import com.musicstore.repositories.brand.BrandRepository
@@ -33,7 +33,7 @@ class PostgresProductRepository(
         fullDesc: String?,
         brandId: Int?,
         categoryId: Int?
-    ): ProductPaginatedResponse<Product> = suspendTransaction {
+    ): PaginatedResponse<Product> = suspendTransaction {
         val sortOrder = if (ascending) SortOrder.ASC else SortOrder.DESC
 
         val baseQuery = ProductTable
@@ -57,7 +57,7 @@ class PostgresProductRepository(
         val totalElements = baseQuery.count().toInt()
 
         if (totalElements == 0) {
-            return@suspendTransaction ProductPaginatedResponse(
+            return@suspendTransaction PaginatedResponse(
                 totalElements = 0,
                 totalPages = 0,
                 page = 0,
@@ -74,9 +74,9 @@ class PostgresProductRepository(
         val paginatedQuery = baseQuery
             .orderBy(ProductTable.product_name to sortOrder)
             .limit(actualPageSize, offset.toLong())
-            .map(::mapRowToModel)
+            .map(::mapRowToProduct)
 
-        ProductPaginatedResponse(
+        PaginatedResponse(
             totalElements = totalElements,
             totalPages = totalPages,
             page = page,

@@ -5,8 +5,6 @@ import com.musicstore.model.request.UpdateProduct
 import com.musicstore.repositories.product.ProductRepository
 import io.ktor.http.*
 import io.ktor.http.content.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -17,12 +15,7 @@ import java.io.File
 fun Route.productRoute(productRepository: ProductRepository) {
 
     route("/api/products") {
-
-
         get {
-            val principal = call.principal<JWTPrincipal>()
-            println("JWT Principal: $principal")
-
             val ascending = call.request.queryParameters["asc"]?.toBoolean() != false
             val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
             val nameProduct = call.request.queryParameters["nameProduct"]

@@ -1,17 +1,66 @@
 package com.musicstore.repositories.user
 
+import com.musicstore.mapping.RoleTable
 import com.musicstore.mapping.UserDAO
+import com.musicstore.mapping.UserRoleTable
 import com.musicstore.mapping.UserTable
 import com.musicstore.mapping.daoToModel
+import com.musicstore.mapping.mapRowToUser
 import com.musicstore.model.User
+import com.musicstore.model.request.PaginatedResponse
 import com.musicstore.plugins.hashPassword
 import com.musicstore.plugins.suspendTransaction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.selectAll
 
 class PostgresUserRepository : UserRepository {
-    override suspend fun allUsers(): List<User> = suspendTransaction {
-        UserDAO.all().map(::daoToModel)
+    override suspend fun allUsers(
+        page: Int,
+        size: Int?,
+        admin: Boolean?
+    ): PaginatedResponse<User> = suspendTransaction {
+        val baseQuery = UserTable
+            .innerJoin(UserRoleTable)
+            .innerJoin(RoleTable)
+            .selectAll()
+            .apply {
+                if (admin == true) {
+                    andWhere {
+                        RoleTable.id eq 1
+                    }
+                }
+            }
+
+        val totalElements = baseQuery.count().toInt()
+
+        if (totalElements == 0) {
+            return@suspendTransaction PaginatedResponse(
+                totalElements = 0,
+                totalPages = 0,
+                page = 0,
+                pageSize = 0,
+                items = emptyList()
+            )
+        }
+        val pageSize = 10
+        val totalPages = (totalElements + pageSize - 1) / pageSize
+        val page = page.coerceAtMost(totalPages)
+        val offset = (page - 1) * pageSize
+        val actualPageSize = pageSize.coerceAtMost(totalElements - offset)
+
+        val paginatedQuery = baseQuery
+            .limit(actualPageSize, offset.toLong())
+            .map(::mapRowToUser)
+
+        PaginatedResponse(
+            totalElements = totalElements,
+            totalPages = totalPages,
+            page = page,
+            pageSize = actualPageSize,
+            items = paginatedQuery
+        )
     }
 
     override suspend fun userById(id: Int): User? = suspendTransaction {
