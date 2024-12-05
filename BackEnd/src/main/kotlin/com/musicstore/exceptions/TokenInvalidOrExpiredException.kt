@@ -1,5 +1,5 @@
 package com.musicstore.exceptions
 
-class NotFoundException(
-    message: String,
+class TokenInvalidOrExpiredException(
+    message: String
 ) : RuntimeException(message)

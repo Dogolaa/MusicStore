@@ -23,7 +23,6 @@ fun Route.userRoute(userRepository: UserRepository) {
             val id = call.parameters["id"]
 
             val user = userRepository.userById(id!!.toInt()) ?: throw NotFoundException(
-                "User not found",
                 "User with ID $id not found"
             )
 
@@ -34,11 +33,25 @@ fun Route.userRoute(userRepository: UserRepository) {
             val email = call.parameters["email"]
 
             val user = userRepository.findByEmail(email!!) ?: throw NotFoundException(
-                "User not found",
                 "User with email $email not found"
             )
 
             call.respond(user)
+        }
+
+        // TODO: Implementar PUT
+        put("/{id]") {
+            val id = call.parameters["id"]
+
+//            val user = userRepository.userById(id!!.toInt()) ?: throw NotFoundException(
+//                "User not found",
+//                "User with ID $id not found"
+//            )
+
+            val user = call.receive<User>()
+            userRepository.updateUserById(id!!.toInt())
+
+
         }
 
         post {
@@ -52,7 +65,7 @@ fun Route.userRoute(userRepository: UserRepository) {
             val removed = userRepository.removeUser(id!!.toInt())
 
             if (removed) call.respond(HttpStatusCode.OK)
-            else throw NotFoundException("User not found", "User with ID $id not found")
+            else throw NotFoundException("User with ID $id not found")
         }
 
 

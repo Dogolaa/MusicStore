@@ -126,5 +126,75 @@ class UsersTest {
 
     }
 
+    @Test
+    fun `GET user without data in db returns 204`() = testApplication {
+        environment { config = ApplicationConfig("application_test.yaml") }
+
+        val response = client.get("/api/users")
+        assertEquals(HttpStatusCode.NoContent, response.status)
+    }
+
+    @Test
+    fun `POST user with email already used returns 500`() = testApplication {
+        environment { config = ApplicationConfig("application_test.yaml") }
+        application {
+            configureDatabases(environment.config)
+
+            transaction {
+                UserTable.insert {
+                    it[user_email] = "email@teste.com"
+                    it[user_name] = "Usuario"
+                    it[user_last_name] = "Teste"
+                    it[user_password] = "123456"
+                    it[user_status] = 1
+                    it[user_ph_content] = "teste"
+                }
+            }
+        }
+
+        val newUserJson = """
+        {
+            "user_email": "email@teste.com",
+            "user_name": "Lucas",
+            "user_last_name": "Souza",
+            "user_password": "teste",
+            "user_status": 1,
+            "user_ph_content": "teste"
+        }
+        """.trimIndent()
+
+        val response = client.post("/api/users") {
+            contentType(ContentType.Application.Json)
+            setBody(newUserJson)
+        }
+
+        assertEquals(HttpStatusCode.InternalServerError, response.status)
+
+
+    }
+
+    // TODO: Implementar de alguma forma para resgatar o id do usuário criado
+//    @Test
+//    fun `DEL user returns 200`() = testApplication {
+//        environment { config = ApplicationConfig("application_test.yaml") }
+//        application {
+//            configureDatabases(environment.config)
+//
+//            transaction {
+//                UserTable.insert {
+//                    it[user_email] = "email@teste.com"
+//                    it[user_name] = "Usuario"
+//                    it[user_last_name] = "Teste"
+//                    it[user_password] = "123456"
+//                    it[user_status] = 1
+//                    it[user_ph_content] = "teste"
+//                }
+//            }
+//        }
+//
+//        val response = client.delete("/api/users/")
+//        assertEquals(HttpStatusCode.NoContent, response.status)
+//    }
+
 
 }

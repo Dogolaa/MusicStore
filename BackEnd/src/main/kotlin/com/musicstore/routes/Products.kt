@@ -3,21 +3,26 @@ package com.musicstore.routes
 import com.musicstore.model.Product
 import com.musicstore.model.request.UpdateProduct
 import com.musicstore.repositories.product.ProductRepository
-import io.ktor.http.HttpStatusCode
-import io.ktor.http.content.PartData
-import io.ktor.http.content.forEachPart
-import io.ktor.server.request.receive
-import io.ktor.server.request.receiveMultipart
-import io.ktor.server.response.respond
+import io.ktor.http.*
+import io.ktor.http.content.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.utils.io.readRemaining
+import io.ktor.utils.io.*
 import kotlinx.io.readByteArray
 import java.io.File
 
 fun Route.productRoute(productRepository: ProductRepository) {
 
     route("/api/products") {
+
+
         get {
+            val principal = call.principal<JWTPrincipal>()
+            println("JWT Principal: $principal")
+
             val ascending = call.request.queryParameters["asc"]?.toBoolean() != false
             val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
             val nameProduct = call.request.queryParameters["nameProduct"]
@@ -39,9 +44,11 @@ fun Route.productRoute(productRepository: ProductRepository) {
             call.respond(paginatedProducts)
         }
 
+
         get("/{id}") {
             val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest)
-            val product = productRepository.productById(id.toInt()) ?: return@get call.respond(HttpStatusCode.NotFound)
+            val product =
+                productRepository.productById(id.toInt()) ?: return@get call.respond(HttpStatusCode.NotFound)
             call.respond(product)
         }
 
@@ -63,7 +70,8 @@ fun Route.productRoute(productRepository: ProductRepository) {
                             if (part.name == "image") {
                                 val originalFileName = part.originalFileName ?: "unknown.jpg"
                                 val fileExtension = originalFileName.substringAfterLast(".", "jpg")
-                                fileName = "${System.currentTimeMillis()}-${java.util.UUID.randomUUID()}.$fileExtension"
+                                fileName =
+                                    "${System.currentTimeMillis()}-${java.util.UUID.randomUUID()}.$fileExtension"
 
                                 val fileBytes = part.provider().readRemaining().readByteArray()
                                 File("images/products/$fileName").writeBytes(fileBytes)
@@ -112,6 +120,5 @@ fun Route.productRoute(productRepository: ProductRepository) {
                 call.respond(HttpStatusCode.NotFound)
             }
         }
-
     }
 }
