@@ -12,10 +12,10 @@ const UserList = () => {
   // Função para buscar a lista filtrada de usuários
   const fetchUsers = () => {
     const queryParams = new URLSearchParams(filters).toString();
-    fetch(`http://localhost:8080/api/admin/users?${queryParams}`, {
+    fetch(`http://localhost:8080/api/users?${queryParams}`, {
       method: "GET",
       headers: {
-        "Authorization": "API_KEY_HERE", // Substitua pela chave correta
+        "Authorization": "SUA_CHAVE_DE_API_AQUI", // Substitua pela chave correta
       },
     })
       .then((response) => {
@@ -25,7 +25,7 @@ const UserList = () => {
         return response.json();
       })
       .then((data) => {
-        setUsers(data || []);
+        setUsers(data); // ou setUsers(data.users) caso a resposta seja { users: [...] }
       })
       .catch((err) => {
         setMessage("Erro ao carregar a lista de usuários: " + err.message);
@@ -40,6 +40,11 @@ const UserList = () => {
   // Função para adicionar um novo usuário
   const handleAddUser = () => {
     navigate("/admin/users/add");
+  };
+
+  // Função para editar um usuário
+  const handleEditUser = (userId) => {
+    navigate(`/admin/users/edit/${userId}`);
   };
 
   // Função para remover um usuário
@@ -91,7 +96,7 @@ const UserList = () => {
         <select name="role" value={filters.role} onChange={handleFilterChange}>
           <option value="">Todas as Funções</option>
           <option value="Administrador">Administrador</option>
-          <option value="Supervisor">Supervisor</option>
+          <option value="Editor">Editor</option>
         </select>
         <select name="status" value={filters.status} onChange={handleFilterChange}>
           <option value="">Todos os Status</option>
@@ -132,6 +137,7 @@ const UserList = () => {
                 <td>{user.user_role}</td>
                 <td>{user.user_status === 1 ? "Ativo" : "Inativo"}</td>
                 <td>
+                  <button onClick={() => handleEditUser(user.id)}>Editar</button>
                   <button onClick={() => handleRemoveUser(user.id)}>Remover</button>
                 </td>
               </tr>
