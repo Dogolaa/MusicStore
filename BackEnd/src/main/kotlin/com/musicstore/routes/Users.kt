@@ -19,16 +19,6 @@ fun Route.userRoute(userRepository: UserRepository) {
             )
         }
 
-        get("/{id}") {
-            val id = call.parameters["id"]
-
-            val user = userRepository.userById(id!!.toInt()) ?: throw NotFoundException(
-                "User with ID $id not found"
-            )
-
-            call.respond(user)
-        }
-
         get("/email/{email}") {
             val email = call.parameters["email"]
 
@@ -62,6 +52,16 @@ fun Route.userRoute(userRepository: UserRepository) {
     }
 
     route("/api/admin/users") {
+        get("/{id}") {
+            val id = call.parameters["id"]
+
+            val user = userRepository.userById(id!!.toInt()) ?: throw NotFoundException(
+                "User with ID $id not found"
+            )
+
+            call.respond(user)
+        }
+        
         put("/{id}/access") {
             val id = call.parameters["id"]
 
