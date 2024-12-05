@@ -39,6 +39,7 @@ fun Route.userRoute(userRepository: UserRepository) {
             call.respond(user)
         }
 
+        // TODO: Implementar PUT
         put("/{id]") {
             val id = call.parameters["id"]
 
