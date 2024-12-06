@@ -7,97 +7,97 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 60px; /* Ajuste a altura conforme a altura do header */
-  }
-  
-  /* Estilizando o cabeçalho */
-  header {
+}
+
+/* Estilizando o cabeçalho */
+header {
     position: relative;
     z-index: 10; /* Garantir que o header fique acima de outros elementos */
-  }
-  
-  /* Estilizando o título principal */
-  h1 {
+}
+
+/* Estilizando o título principal */
+h1 {
     text-align: center;
     font-size: 24px;
     margin-bottom: 20px;
     color: #333;
-  }
-  
-  /* Estilizando a mensagem de erro e sucesso */
-  .message {
+}
+
+/* Estilizando a mensagem de erro e sucesso */
+.message {
     padding: 12px;
     margin-bottom: 20px;
     font-size: 16px;
     text-align: center;
     border-radius: 5px;
     font-weight: bold;
-  }
-  
-  .message.success {
+}
+
+.message.success {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
-  }
-  
-  .message.error {
+}
+
+.message.error {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
-  }
-  
-  /* Estilizando o formulário */
-  form {
+}
+
+/* Estilizando o formulário */
+form {
     display: flex;
     flex-direction: column;
-  }
-  
-  .form-group {
+}
+
+.form-group {
     margin-bottom: 20px;
-  }
-  
-  label {
+}
+
+label {
     font-size: 16px;
     font-weight: 600;
     color: #333;
     margin-bottom: 5px;
-  }
-  
-  input[type="email"],
-  input[type="text"],
-  input[type="password"],
-  select {
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"],
+select {
     width: 100%;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-  }
-  
-  input[type="email"]:focus,
-  input[type="text"]:focus,
-  input[type="password"]:focus,
-  select:focus {
+}
+
+input[type="email"]:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus {
     border-color: #007bff;
     outline: none;
-  }
-  
-  input[type="checkbox"] {
+}
+
+input[type="checkbox"] {
     margin-right: 10px;
-  }
-  
-  /* Estilizando a área de papéis */
-  .select-roles {
+}
+
+/* Estilizando a área de papéis */
+.select-roles {
     width: 100%;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  /* Estilizando o botão de ação */
-  button[type="submit"],
-  button[type="button"] {
+}
+
+/* Estilizando o botão de ação */
+button[type="submit"],
+button[type="button"] {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -108,101 +108,101 @@
     transition: background-color 0.3s;
     margin-right: 10px;
     width: 48%;
-  }
-  
-  button[type="submit"]:hover,
-  button[type="button"]:hover {
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
     background-color: #0056b3;
-  }
-  
-  button[type="button"] {
+}
+
+button[type="button"] {
     background-color: #6c757d;
-  }
-  
-  button[type="button"]:hover {
+}
+
+button[type="button"]:hover {
     background-color: #5a6268;
-  }
-  
-  /* Centralizar os botões de ação */
-  .form-actions {
+}
+
+/* Centralizar os botões de ação */
+.form-actions {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-  }
-  
-  /* Responsividade para telas menores */
-  @media (max-width: 768px) {
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
     .add-user {
-      padding: 15px;
+        padding: 15px;
     }
-  
+
     h1 {
-      font-size: 20px;
+        font-size: 20px;
     }
-  
+
     .form-actions {
-      flex-direction: column;
+        flex-direction: column;
     }
-  
+
     button[type="submit"],
     button[type="button"] {
-      width: 100%;
-      margin-bottom: 10px;
+        width: 100%;
+        margin-bottom: 10px;
     }
-  }
+}
 
 /* Estilizando o campo de upload de imagem */
 .image-upload {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .image-upload label {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
 }
 
 .image-upload input[type="file"] {
-  display: none; /* Ocultar o input padrão */
+    display: none; /* Ocultar o input padrão */
 }
 
 .image-upload .custom-upload-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .image-upload .custom-upload-button:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
 }
 
 /* Pré-visualização da imagem */
 .image-preview {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .image-preview img {
-  max-width: 150px;
-  max-height: 150px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  object-fit: cover;
-  margin-bottom: 10px;
+    max-width: 150px;
+    max-height: 150px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 10px;
 }
 
 .image-preview span {
-  font-size: 14px;
-  color: #666;
+    font-size: 14px;
+    color: #666;
 }

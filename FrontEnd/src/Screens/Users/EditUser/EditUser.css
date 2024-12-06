@@ -6,87 +6,87 @@
     background: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Título */
-  .edit-user h1 {
+}
+
+/* Título */
+.edit-user h1 {
     text-align: center;
     margin-bottom: 20px;
     font-size: 24px;
     color: #333;
-  }
-  
-  /* Formulário */
-  .edit-user form {
+}
+
+/* Formulário */
+.edit-user form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-  }
-  
-  /* Inputs, Select e Botão */
-  .edit-user input,
-  .edit-user select,
-  .edit-user button {
+}
+
+/* Inputs, Select e Botão */
+.edit-user input,
+.edit-user select,
+.edit-user button {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
-  }
-  
-  .edit-user input:focus,
-  .edit-user select:focus {
+}
+
+.edit-user input:focus,
+.edit-user select:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
-  }
-  
-  /* Botão */
-  .edit-user button {
+}
+
+/* Botão */
+.edit-user button {
     background: #007bff;
     color: #fff;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-  
-  .edit-user button:hover {
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease;
+}
+
+.edit-user button:hover {
     background: #0056b3;
     transform: scale(1.02);
-  }
-  
-  /* Toggle de Acesso */
-  .access-toggle {
+}
+
+/* Toggle de Acesso */
+.access-toggle {
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  
-  .access-toggle label {
+}
+
+.access-toggle label {
     font-size: 16px;
     font-weight: bold;
     color: #333;
     cursor: pointer;
-  }
-  
-  .access-toggle input[type="checkbox"] {
+}
+
+.access-toggle input[type="checkbox"] {
     margin-right: 10px;
     transform: scale(1.5);
     cursor: pointer;
-  }
-  
-  /* Centralização do Botão */
-  .edit-user form button {
-    align-self:flex-start;
+}
+
+/* Centralização do Botão */
+.edit-user form button {
+    align-self: flex-start;
     width: 50%;
-  }
-  
-  /* Mensagens de Validação ou Erro */
-  .edit-user .message {
+}
+
+/* Mensagens de Validação ou Erro */
+.edit-user .message {
     text-align: center;
     font-size: 14px;
     margin-top: 10px;
     color: #ff4d4d; /* Cor vermelha para erros */
-  }
-  
-  
+}
