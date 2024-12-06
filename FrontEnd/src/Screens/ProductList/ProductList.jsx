@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from '../../Components/Header/Header';
+import Header from "../../Components/Header/Header";
 import "./ProductList.css";
 
 const ProductList = () => {
@@ -88,12 +88,16 @@ const ProductList = () => {
     <div className="product-list">
       <Header />
       <h1>BlueVelvet Music Store</h1>
-      <p>Bem-vindo, {("username")} ({("role")})</p>
+      <p>
+        Bem-vindo, {"username"} ({"role"})
+      </p>
       <button onClick={handleReset}>Logout</button>
-      
+
       <div className="controls">
         <button onClick={handleReset}>Reset Products to Initial State</button>
-        <button onClick={() => navigate("/admin/products/add")}>Add Product</button>
+        <button onClick={() => navigate("/admin/products/add")}>
+          Add Product
+        </button>
         <input
           type="text"
           placeholder="Search products..."
@@ -130,7 +134,7 @@ const ProductList = () => {
                 <td>{product.id}</td>
                 <td>
                   <img
-                    src={`http://localhost:8080/images/${product.product_main_photo}`}
+                    src={`http://localhost:8080/images/products/${product.product_main_photo}`}
                     alt={product.product_name}
                     width="50"
                   />
@@ -139,13 +143,23 @@ const ProductList = () => {
                 <td>{product.brand}</td>
                 <td>{product.category}</td>
                 <td>
-                  <button onClick={() => navigate(`/admin/products/view/${product.id}`)}>
+                  <button
+                    onClick={() =>
+                      navigate(`/admin/products/view/${product.id}`)
+                    }
+                  >
                     View
                   </button>
-                  <button onClick={() => navigate(`/admin/products/edit/${product.id}`)}>
+                  <button
+                    onClick={() =>
+                      navigate(`/admin/products/edit/${product.id}`)
+                    }
+                  >
                     Edit
                   </button>
-                  <button onClick={() => handleDelete(product.id)}>Delete</button>
+                  <button onClick={() => handleDelete(product.id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))
@@ -158,7 +172,10 @@ const ProductList = () => {
       </table>
 
       <div className="pagination">
-        <button onClick={() => handlePageChange("prev")} disabled={currentPage === 1}>
+        <button
+          onClick={() => handlePageChange("prev")}
+          disabled={currentPage === 1}
+        >
           Previous
         </button>
         <span>

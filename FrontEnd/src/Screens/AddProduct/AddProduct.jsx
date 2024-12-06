@@ -31,14 +31,34 @@ const AddProduct = () => {
       return;
     }
 
+    // Prepare FormData for the request
+    const productData = new FormData();
+    productData.append("image", document.getElementById("image").files[0]); // Append the image
+
+    const product = {
+      id_brand: formData.id_brand,
+      product_name: formData.product_name,
+      product_short_desc: formData.product_short_desc,
+      product_long_desc: formData.product_long_desc,
+      product_price: formData.product_price,
+      product_discount: formData.product_discount,
+      product_status: formData.product_status,
+      product_has_stocks: formData.product_has_stocks,
+      product_width: formData.product_width,
+      product_lenght: formData.product_lenght,
+      product_height: formData.product_height,
+      product_cost: formData.product_cost,
+    };
+
+    console.log(product);
+
+    productData.append("product", JSON.stringify(product)); // Append the rest of the product data as a JSON string
+
     fetch("http://localhost:8080/api/products", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "api-key": "your-api-key",
-      },
-      body: JSON.stringify(formData),
+      body: productData,
     })
+      .then((response) => response)
       .then(() => navigate("/"))
       .catch((err) => console.error("Error submitting product:", err));
   };
@@ -55,10 +75,11 @@ const AddProduct = () => {
           required
         />
         <input
-          type="text"
-          name="product_main_photo"
+          type="file"
+          id="image"
+          name="image"
           placeholder="Main Photo Filename"
-          onChange={handleChange}
+          required
         />
         <textarea
           name="product_short_desc"
@@ -86,14 +107,12 @@ const AddProduct = () => {
           <option value="">Select Brand</option>
           {brands.map((brand) => (
             <option key={brand.id} value={brand.id}>
-              {brand.name}
+              {brand.brand_name}
             </option>
           ))}
         </select>
-        <select
-          name="product_status"
-          onChange={handleChange}
-        >
+        <select name="product_status" onChange={handleChange}>
+          <option value="">Select Status</option>
           <option value="1">Active</option>
           <option value="0">Inactive</option>
         </select>
