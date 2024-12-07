@@ -13,12 +13,14 @@ import ViewProduct from "./Screens/ViewProduct/ViewProduct";
 import UserList from "./Screens/Users/UserList/UserList";
 import AddUser from "./Screens/Users/AddUser/AddUser";
 import EditUser from "./Screens/Users/EditUser/EditUser";
+import LoginPage from "./Screens/LoginPage/LoginPage";
 
 const App = () => {
     return (
         <Router>
             <Routes>
-                {/* Página inicial redirecionando para PainelAdm */}
+                <Route path="/login" element={<LoginPage />} />
+
                 <Route path="/" element={<Navigate to="/admin" replace />} />
 
                 {/* Painel ADM */}
