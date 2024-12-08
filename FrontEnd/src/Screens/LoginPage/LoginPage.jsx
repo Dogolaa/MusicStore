@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./LoginPage.css";
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -7,9 +9,9 @@ export default function LoginPage() {
 
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     console.log(email);
-    // }, [email]);
+    useEffect(() => {
+        localStorage.removeItem("token");
+    }, []);
 
     const handleLogin = () => {
         const loginJson = JSON.stringify({
@@ -30,16 +32,21 @@ export default function LoginPage() {
             .then((data) => {
                 if (data.token) {
                     localStorage.setItem("token", data.token);
-                    navigate("/admin");
+                    const decoded = jwtDecode(data.token);
+                    if (decoded.user_role.includes("ADMIN")) {
+                        navigate("/admin");
+                    } else {
+                        navigate("/home");
+                    }
                 } else {
-                    console.log("Erro ao efetuar login");
+                    alert("Login failed. Please try again.");
                 }
             })
             .catch((err) => console.error("Error in login:", err));
     };
 
     return (
-        <div>
+        <div className="container">
             <h1>Login</h1>
             <input
                 type="text"

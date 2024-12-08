@@ -10,7 +10,9 @@ const AddProduct = () => {
     // Fetch brands on component mount
     useEffect(() => {
         fetch("http://localhost:8080/api/brands", {
-            headers: { "api-key": "your-api-key" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
         })
             .then((res) => res.json())
             .then((data) => setBrands(data))

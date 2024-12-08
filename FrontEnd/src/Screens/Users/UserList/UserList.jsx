@@ -12,10 +12,11 @@ const UserList = () => {
     // Função para buscar a lista filtrada de usuários
     const fetchUsers = () => {
         const queryParams = new URLSearchParams(filters).toString();
-        fetch(`http://localhost:8080/api/users?${queryParams}`, {
+        console.log(localStorage.getItem("token"));
+        fetch(`http://localhost:8080/api/admin/users?${queryParams}`, {
             method: "GET",
             headers: {
-                Authorization: "SUA_CHAVE_DE_API_AQUI", // Substitua pela chave correta
+                Authorization: `Bearer ${localStorage.getItem("token")}`, // Substitua pela chave correta
             },
         })
             .then((response) => {
@@ -27,7 +28,7 @@ const UserList = () => {
                 return response.json();
             })
             .then((data) => {
-                setUsers(data); // ou setUsers(data.users) caso a resposta seja { users: [...] }
+                setUsers(data.items); // ou setUsers(data.users) caso a resposta seja { users: [...] }
             })
             .catch((err) => {
                 setMessage(
@@ -60,7 +61,7 @@ const UserList = () => {
             fetch(`http://localhost:8080/api/users/${userId}`, {
                 method: "DELETE",
                 headers: {
-                    Authorization: "API_KEY_HERE", // Substitua pela chave correta
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             })
                 .then(() => {

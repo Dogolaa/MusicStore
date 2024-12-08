@@ -14,14 +14,19 @@ import UserList from "./Screens/Users/UserList/UserList";
 import AddUser from "./Screens/Users/AddUser/AddUser";
 import EditUser from "./Screens/Users/EditUser/EditUser";
 import LoginPage from "./Screens/LoginPage/LoginPage";
+import HomePage from "./Screens/HomePage/HomePage";
 
 const App = () => {
     return (
         <Router>
             <Routes>
+                <Route path="/" element={<Navigate to="/login" replace />} />
+
+                {/* Painel LOGIN */}
                 <Route path="/login" element={<LoginPage />} />
 
-                <Route path="/" element={<Navigate to="/admin" replace />} />
+                {/* Painel HOME */}
+                <Route path="/home" element={<HomePage />} />
 
                 {/* Painel ADM */}
                 <Route path="/admin" element={<PainelAdm />} />

@@ -23,7 +23,9 @@ const ProductList = () => {
         }
 
         fetch(url, {
-            headers: { "api-key": "your-api-key" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
         })
             .then((res) => res.json())
             .then((data) => {

@@ -109,7 +109,7 @@ const AddUser = () => {
         fetch("http://localhost:8080/api/users", {
             method: "POST",
             headers: {
-                Authorization: "API_KEY_HERE", // Substitua com a sua chave de API
+                Authorization: `Bearer ${localStorage.getItem("token")}`, // Substitua com a sua chave de API
             },
             body: userPayload,
         })

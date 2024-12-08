@@ -11,7 +11,9 @@ const EditUser = () => {
     // Fetch user data on component mount
     useEffect(() => {
         fetch(`http://localhost:8080/api/users/${id}`, {
-            headers: { Authorization: "your-api-key" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
         })
             .then((res) => {
                 if (!res.ok) {
@@ -52,7 +54,7 @@ const EditUser = () => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "your-api-key",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             body: JSON.stringify(updatedUser),
         })

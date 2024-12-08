@@ -1,24 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../../Components/Header/Header";
-import "./PainelAdm.css";
+import "./HomePage.css";
 
-const PainelAdm = () => {
+const HomePage = () => {
     return (
         <div className="app-container">
             <Header />
             <main className="main-content">
-                <h1>MusicStore Admin Control Panel</h1>
+                <h1>MusicStore User Control Panel</h1>
                 <nav className="admin-nav">
                     <ul>
-                        <li>
-                            <Link to="/admin/products">Manage Products</Link>
-                        </li>
-                        <li>
-                            <Link to="/admin/products/add">
-                                Add New Product
-                            </Link>
-                        </li>
                         <li>
                             <Link to="/login">Logout</Link>
                         </li>
@@ -30,4 +22,4 @@ const PainelAdm = () => {
     );
 };
 
-export default PainelAdm;
+export default HomePage;
