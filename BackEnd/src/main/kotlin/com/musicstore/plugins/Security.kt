@@ -3,6 +3,7 @@ package com.musicstore.plugins
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.musicstore.exceptions.InvalidPasswordException
+import com.musicstore.exceptions.NotFoundException
 import com.musicstore.exceptions.TokenInvalidOrExpiredException
 import com.musicstore.model.request.UserLogin
 import com.musicstore.repositories.role.RoleRepository
@@ -42,8 +43,9 @@ fun Application.configureSecurity(userRepository: UserRepository, roleRepository
     routing {
         post("/api/login") {
             val (email, password) = call.receive<UserLogin>()
-            val user = userRepository.findByEmail(email)
-            val role = roleRepository.roleByUserId(user?.id!!)
+            val user =
+                userRepository.findByEmail(email) ?: throw NotFoundException("The email you entered is incorrect")
+            val role = roleRepository.roleByUserId(user.id!!)
 
             if (password.verifyPassword(user.user_password)) {
                 val token = JWT.create()
