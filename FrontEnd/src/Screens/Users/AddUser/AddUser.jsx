@@ -94,19 +94,23 @@ const AddUser = () => {
         }
 
         const userPayload = new FormData(); // Usar FormData para incluir imagem
-        userPayload.append("user_email", formData.user_email);
-        userPayload.append("user_name", formData.user_name);
-        userPayload.append("user_last_name", formData.user_last_name);
-        userPayload.append("user_password", formData.user_password);
-        userPayload.append("user_status", formData.user_status);
-        userPayload.append("user_ph_content", formData.user_ph_content);
-        userPayload.append("user_role", formData.user_role);
-        if (imageData) {
-            userPayload.append("user_image", imageData); // Adiciona a imagem ao payload
-        }
 
+        const user = {
+            user_email: formData.user_email,
+            user_name: formData.user_name,
+            user_last_name: formData.user_last_name,
+            user_password: formData.user_password,
+            user_status: formData.user_status,
+        };
+
+        userPayload.append("user", JSON.stringify(user));
+        userPayload.append(
+            "image",
+            document.getElementById("imageUpload").files[0],
+        ); // Adiciona a imagem ao payload
+        //imageUpload
         // Envio da requisição para a API
-        fetch("http://localhost:8080/api/users", {
+        fetch("http://localhost:8080/api/admin/users", {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`, // Substitua com a sua chave de API

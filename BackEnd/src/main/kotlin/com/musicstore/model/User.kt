@@ -10,5 +10,5 @@ data class User(
     val user_last_name: String,
     val user_password: String,
     val user_status: Int,
-    val user_ph_content: String
+    val user_ph_content: String? = null
 )

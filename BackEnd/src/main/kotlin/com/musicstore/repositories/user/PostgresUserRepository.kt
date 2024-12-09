@@ -74,7 +74,7 @@ class PostgresUserRepository : UserRepository {
             user_last_name = user.user_last_name
             user_password = user.user_password.hashPassword()
             user_status = user.user_status
-            user_ph_content = user.user_ph_content
+            user_ph_content = user.user_ph_content.toString()
         }
     }
 

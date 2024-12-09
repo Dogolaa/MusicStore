@@ -58,7 +58,7 @@ const UserList = () => {
             "Tem certeza de que deseja remover este usuário? Esta ação não pode ser desfeita.",
         );
         if (confirmRemove) {
-            fetch(`http://localhost:8080/api/users/${userId}`, {
+            fetch(`http://localhost:8080/api/admin/users/${userId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
